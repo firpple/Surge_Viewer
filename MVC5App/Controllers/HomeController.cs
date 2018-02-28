@@ -27,5 +27,11 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public ActionResult Tests()
+        {
+            ViewBag.Message = "Your test page.";
+
+            return View();
+        }
     }
 }
