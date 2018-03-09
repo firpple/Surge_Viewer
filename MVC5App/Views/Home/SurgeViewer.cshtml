@@ -1,8 +1,27 @@
-﻿
+﻿@{ 
+// ABOUT USING EXTERNAL JAVASCRIPTS
+// https://stackoverflow.com/questions/24763493/how-to-include-js-files-in-the-view-asp-net-mvc-4
+}
+
+
+
 @{
     ViewBag.Title = "SurgeViewer";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //Scripts.Render("~/Views/Home/JacksonScript.js");
+    Scripts.Render("~/Scripts/JacksonScript.js");
 }
+
+
+<script src="~/Scripts/JacksonScript.js"></script>
 
 <h2>SurgeViewer</h2>
 
+<p>    
+    Message from an external JS file:
+    <script>
+        PrintHello();
+    </script>
+
+    
+</p>
