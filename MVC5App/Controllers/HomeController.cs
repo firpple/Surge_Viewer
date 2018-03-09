@@ -27,5 +27,12 @@ namespace MVC5App.Controllers
 
             return View();
         }
+
+        public ActionResult SurgeViewer()
+        {
+            ViewBag.Message = "Your Surge VIewer Page";
+
+            return View();
+        }
     }
 }
