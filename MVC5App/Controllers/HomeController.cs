@@ -33,5 +33,11 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public ActionResult UploadPage()
+        {
+            ViewBag.Message = "Your upload page.";
+
+            return View();
+        }
     }
 }
