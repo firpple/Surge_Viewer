@@ -1,0 +1,142 @@
+﻿@using MySql.Data;
+@using MySql.Data.MySqlClient;
+@{
+    //code author: Ocph23 (stackExchange User)
+    //code modifier: Evan Su
+
+
+    ViewBag.Title = "Tests";
+    //string that can be used for the html part
+    string outputString = "";
+    //creates connection class instance
+    var dbCon = MVC5App.Models.DBConnection.Instance();
+    dbCon.DatabaseName = "YourDatabase";
+    //trys to connect once
+    if (dbCon.IsConnect())
+    {
+        //based on how the code is written, the connection can fail.
+        //This attempts to retry connection if intially failed.
+        int tryConnection = 0;
+        while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+        {
+            dbCon.IsConnect();
+            tryConnection++;
+        }
+
+        //lets try to query
+        string query = "SELECT Title,Genre,Year FROM Movies";
+
+        var cmd = new MySqlCommand(query, dbCon.Connection);
+        if (dbCon.Connection.State == System.Data.ConnectionState.Open)
+        {
+            var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string someStringFromColumnZero = reader.GetString(0);
+                string someStringFromColumnOne = reader.GetString(1);
+                string someStringFromColumnTwo = reader.GetString(2);
+                outputString += someStringFromColumnZero;
+                outputString += someStringFromColumnOne;
+                outputString += someStringFromColumnTwo;
+                Console.WriteLine(someStringFromColumnZero);
+            }
+        }
+        else
+        {
+            outputString = "noConnection";
+        }
+
+        dbCon.Close();
+    }
+
+    //lets try to insert 
+    //creates connection class instance
+    var dbConInsert = MVC5App.Models.DBConnection.Instance();
+    bool duplicate = false;
+    dbConInsert.DatabaseName = "YourDatabase";
+    //trys to connect once
+    if (dbConInsert.IsConnect())
+    {
+        string insertString = "INSERT into Movies (Title,Genre,Year) VALUES (@Title,@Genre,@Year)";
+        string findDups = "SELECT * FROM Movies WHERE Title = @MovieName";
+        using (MySqlCommand command = new MySqlCommand())
+        {
+            command.Connection = dbConInsert.Connection;
+            command.CommandText = findDups;
+            command.Parameters.AddWithValue("@MovieName", "PizzaMan");
+
+            try
+            {
+                bool canRead = command.ExecuteReader().Read();
+                duplicate = canRead;
+                outputString += "Found String:"+canRead.ToString();
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                // error here
+            }
+        }
+        dbConInsert.Close();
+
+        dbConInsert = MVC5App.Models.DBConnection.Instance();
+
+        dbConInsert.DatabaseName = "YourDatabase";
+        dbConInsert.IsConnect();
+        //var cmd = new MySqlCommand(query, dbCon.Connection);
+        using (MySqlCommand command = new MySqlCommand())
+        {
+            command.Connection = dbConInsert.Connection;
+            command.CommandText = insertString;
+            command.Parameters.AddWithValue("@Title", "pizzaMan");
+            command.Parameters.AddWithValue("@Genre", "not funny");
+            command.Parameters.AddWithValue("@Year", 2042);
+
+            try
+            {
+                if (!duplicate)
+                {
+                    int recordsAffected = command.ExecuteNonQuery();
+                }
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                // error here
+            }
+        }
+    }
+    /*//lets try to insert
+        dbCon.Close();
+
+        dbCon.IsConnect();
+
+        string insertString = "INSERT into Movies (Title,Genre,Year) VALUES (@Title,@Genre,@Year)";
+
+        //var cmd = new MySqlCommand(query, dbCon.Connection);
+        using (MySqlCommand command = new MySqlCommand())
+        {
+            command.Connection = dbCon.Connection;
+            command.CommandText = insertString;
+            command.Parameters.AddWithValue("@Title", "pizzaMan");
+            command.Parameters.AddWithValue("@Genre", "not funny");
+            command.Parameters.AddWithValue("@Year", 2042);
+
+            try
+            {
+                int recordsAffected = command.ExecuteNonQuery();
+            }
+            catch(System.Data.SqlClient.SqlException)
+            {
+                // error here
+            }
+        }
+ */
+}
+<h2>@ViewBag.Title.</h2>
+
+<h3>Sample Query</h3>
+
+<p>
+    <br /><br />
+    @outputString<br /><br />
+</p>

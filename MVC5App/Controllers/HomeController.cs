@@ -31,6 +31,18 @@ namespace MVC5App.Controllers
         public ActionResult SurgeViewer()
         {
             ViewBag.Message = "Your Surge VIewer Page";
+            return View();
+        }
+        
+        public ActionResult Tests()
+        {
+            ViewBag.Message = "Your test page.";
+
+            return View();
+        }
+        public ActionResult UploadPage()
+        {
+            ViewBag.Message = "Your upload page.";
 
             return View();
         }
