@@ -52,5 +52,9 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public int sendQuery()
+        {
+            return 1;
+        }
     }
 }

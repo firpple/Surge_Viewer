@@ -134,7 +134,7 @@
     document.write('hello world');
     $.ajax({
         type: "POST",
-        url: '<%= ResolveUrl("~/Views/Home/WebForm1.aspx/sendQuery")%',
+        url: '@Url.Action("sendQuery", "HomeController")',
         data: "{}",
         contentType: "application/json",
         success: function (msg) {
