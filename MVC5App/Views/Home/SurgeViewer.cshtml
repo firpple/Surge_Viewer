@@ -21,6 +21,7 @@
     Message from an external JS file:
     <script>
         PrintHello();
+        PrintDate();
     </script>
 
     <img src="~/Scripts/Test/download.jpg" />
@@ -104,6 +105,8 @@
                 date: newDate,
                 visits: visits
             });
+
+            document.write(newDate, " ", visits, "<br />");            
         }
     }
 
