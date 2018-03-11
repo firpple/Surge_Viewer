@@ -15,3 +15,7 @@ function PrintDate() {
     document.write("Month: ", dateArr[2], "<br />");
     document.write("Day: ", dateArr[4], "<br />");    
 }
+
+function PrintDateFromStr(inputStr) {
+    document.write(inputStr);
+}

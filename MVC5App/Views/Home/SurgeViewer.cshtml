@@ -12,7 +12,9 @@
     //Scripts.Render("~/Scripts/JacksonScript.js");
 }
 
-
+@{ 
+    string csDate = "2017 - 07 - 09 11:07:00 UTC";
+}
 <script src="~/Scripts/Test/JacksonScript.js"></script>
 
 <h2>SurgeViewer</h2>
@@ -23,6 +25,12 @@
         PrintHello();
         PrintDate();
     </script>
+
+    <p>
+        Print something from c#:
+        <script>PrintDateFromStr("@csDate");</script>
+    </p>
+
 
     <img src="~/Scripts/Test/download.jpg" />
 
