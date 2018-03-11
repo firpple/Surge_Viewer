@@ -46,5 +46,11 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public ActionResult WebForm1()
+        {
+            ViewBag.Message = "Your WebForm1 page.";
+
+            return View();
+        }
     }
 }

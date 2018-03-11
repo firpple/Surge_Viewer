@@ -1,55 +1,156 @@
-﻿@{
-    var result = "";
-    if (IsPost)
+﻿@using MySql.Data;
+@using MySql.Data.MySqlClient;
+@{
+    //code author: Ocph23 (stackExchange User)
+    //code modifier: Evan Su
+
+
+    ViewBag.Title = "Tests";
+    //string that can be used for the html part
+    string outputString = "";
+    //creates connection class instance
+    var dbCon = MVC5App.Models.DBConnection.Instance();
+    dbCon.DatabaseName = "YourDatabase";
+    //trys to connect once
+    if (dbCon.IsConnect())
     {
-        var firstName = Request["FirstName"];
-        var lastName = Request["LastName"];
-        var email = Request["Email"];
+        //based on how the code is written, the connection can fail.
+        //This attempts to retry connection if intially failed.
+        int tryConnection = 0;
+        while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+        {
+            dbCon.IsConnect();
+            tryConnection++;
+        }
 
-        var userData = firstName + "," + lastName +
-            "," + email + Environment.NewLine;
+        //lets try to query
+        string query = "SELECT Title,Genre,Year FROM Movies";
 
-        var dataFile = Server.MapPath("~/App_Data/data.txt");
-        File.WriteAllText(@dataFile, userData);
-        result = "Information saved.";
-    }
-}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Write Data to a File</title>
-</head>
-<body>
-    <form id="form1" method="post">
-        <div>
-            <table>
-                <tr>
-                    <td>First Name:</td>
-                    <td>First Name:</td>
-                    <td>First Name:</td>
-                    <td><input id="FirstName" name="FirstName" type="text" /></td>
+        var cmd = new MySqlCommand(query, dbCon.Connection);
+        if (dbCon.Connection.State == System.Data.ConnectionState.Open)
+        {
+            var reader = cmd.ExecuteReader();
 
-                </tr>
-                <tr>
-                    <td>Last Name:</td>
-                    <td><input id="LastName" name="LastName" type="text" /></td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input id="Email" name="Email" type="text" /></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Submit" /></td>
-                </tr>
-            </table>
-        </div>
-        <div>
-            @if (result != "")
+            while (reader.Read())
             {
-                <p>Result: @result</p>
+                string someStringFromColumnZero = reader.GetString(0);
+                string someStringFromColumnOne = reader.GetString(1);
+                string someStringFromColumnTwo = reader.GetString(2);
+                outputString += someStringFromColumnZero;
+                outputString += someStringFromColumnOne;
+                outputString += someStringFromColumnTwo;
+                Console.WriteLine(someStringFromColumnZero);
             }
-        </div>
-    </form>
-</body>
-</html>
+        }
+        else
+        {
+            outputString = "noConnection";
+        }
+
+        dbCon.Close();
+    }
+
+    //lets try to insert
+    //creates connection class instance
+    var dbConInsert = MVC5App.Models.DBConnection.Instance();
+    bool duplicate = false;
+    dbConInsert.DatabaseName = "YourDatabase";
+    //trys to connect once
+    if (dbConInsert.IsConnect())
+    {
+        string insertString = "INSERT into Movies (Title,Genre,Year) VALUES (@Title,@Genre,@Year)";
+        string findDups = "SELECT * FROM Movies WHERE Title = @MovieName";
+        using (MySqlCommand command = new MySqlCommand())
+        {
+            command.Connection = dbConInsert.Connection;
+            command.CommandText = findDups;
+            command.Parameters.AddWithValue("@MovieName", "PizzaMan");
+
+            try
+            {
+                bool canRead = command.ExecuteReader().Read();
+                duplicate = canRead;
+                outputString += "Found String:" + canRead.ToString();
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                // error here
+            }
+        }
+        dbConInsert.Close();
+
+        dbConInsert = MVC5App.Models.DBConnection.Instance();
+
+        dbConInsert.DatabaseName = "YourDatabase";
+        dbConInsert.IsConnect();
+        //var cmd = new MySqlCommand(query, dbCon.Connection);
+        using (MySqlCommand command = new MySqlCommand())
+        {
+            command.Connection = dbConInsert.Connection;
+            command.CommandText = insertString;
+            command.Parameters.AddWithValue("@Title", "pizzaMan");
+            command.Parameters.AddWithValue("@Genre", "not funny");
+            command.Parameters.AddWithValue("@Year", 2042);
+
+            try
+            {
+                if (!duplicate)
+                {
+                    int recordsAffected = command.ExecuteNonQuery();
+                }
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                // error here
+            }
+        }
+    }
+
+}
+
+<script type="text/c#" runat="server">
+    [System.Web.Services.WebMethod]
+    public static int sendQuery()
+    {
+    return 1;
+    }
+</script>
+
+<asp:ScriptManager ID="ScriptManager1"
+                   EnablePageMethods="true"
+                   EnablePartialRendering="true" runat="server" />
+
+<h2>@ViewBag.Title.</h2>
+
+<h3>Sample Query</h3>
+
+<p>
+    <br /><br />
+    @outputString<br /><br />
+</p>
+<asp:ScriptManager ID="scm" runat="server" EnablePageMethods="true" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
+    document.write('hello world');
+    $.ajax({
+        type: "POST",
+        url: '<%= ResolveUrl("~/Views/Home/WebForm1.aspx/sendQuery")%',
+        data: "{}",
+        contentType: "application/json",
+        success: function (msg) {
+            onSucess();
+        },
+        error: function (msg) {
+            onError();
+        }
+    });
+    function onSucess(result) {
+        alert(result);
+    }
+
+    function onError(result) {
+        alert('error');
+    }
+
+    document.write('hello world2');
+</script>
