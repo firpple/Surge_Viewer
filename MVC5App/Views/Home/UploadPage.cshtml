@@ -1,7 +1,17 @@
 ﻿@using MySql.Data;
 @using MySql.Data.MySqlClient;
+
 @{
-    //code author: Ocph23 (stackExchange User)
+    var insertCommandCompany = "INSERT INTO Company (CompanyName, Domain, CompanySize, Industry) Values(@0, @1, @2, @3)";
+    var checkCommandCompany = "SELECT * FROM Company WHERE CompanyName = @0";
+
+    var insertCommandTopic = "INSERT INTO Topic (TopicID,TopicName, TopicCategory) Values(@0, @1 , @2)";
+    var checkCommandTopic = "SELECT * FROM Topic WHERE TopicID = @0";
+
+    var insertCommandSurge = "INSERT INTO Surge (TopicID, CompanyID, Date, Score, Country, MetroArea, DomainOrigin) Values(@0, @1 , @2, @3, @4, @5, @6)";
+
+
+
     //code modifier: Evan Su
 
 
@@ -26,21 +36,21 @@
         //lets try to query
         string query = "SELECT Title,Genre,Year FROM Movies";
 
-        var cmd = new MySqlCommand(query, dbCon.Connection);
+        var cmd = new MySqlCommand(checkCommandCompany, dbCon.Connection);
+        cmd.Parameters.AddWithValue("@0", "irib");
         if (dbCon.Connection.State == System.Data.ConnectionState.Open)
         {
             var reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
-                string someStringFromColumnZero = reader.GetString(0);
-                string someStringFromColumnOne = reader.GetString(1);
-                string someStringFromColumnTwo = reader.GetString(2);
-                outputString += someStringFromColumnZero;
-                outputString += someStringFromColumnOne;
-                outputString += someStringFromColumnTwo;
-                Console.WriteLine(someStringFromColumnZero);
+                outputString += "uvu";
+                outputString += reader.GetString(0);
+                outputString += reader.GetString(1);
+                outputString += reader.GetString(2);
+                outputString += "\n";
             }
+            reader.Close();
         }
         else
         {
@@ -50,61 +60,8 @@
         dbCon.Close();
     }
 
-    //lets try to insert
-    //creates connection class instance
-    var dbConInsert = MVC5App.Models.DBConnection.Instance();
-    bool duplicate = false;
-    dbConInsert.DatabaseName = "YourDatabase";
-    //trys to connect once
-    if (dbConInsert.IsConnect())
-    {
-        string insertString = "INSERT into Movies (Title,Genre,Year) VALUES (@Title,@Genre,@Year)";
-        string findDups = "SELECT * FROM Movies WHERE Title = @MovieName";
-        using (MySqlCommand command = new MySqlCommand())
-        {
-            command.Connection = dbConInsert.Connection;
-            command.CommandText = findDups;
-            command.Parameters.AddWithValue("@MovieName", "PizzaMan");
-
-            try
-            {
-                bool canRead = command.ExecuteReader().Read();
-                duplicate = canRead;
-                outputString += "Found String:" + canRead.ToString();
-            }
-            catch (System.Data.SqlClient.SqlException)
-            {
-                // error here
-            }
-        }
-        dbConInsert.Close();
-
-        dbConInsert = MVC5App.Models.DBConnection.Instance();
-
-        dbConInsert.DatabaseName = "YourDatabase";
-        dbConInsert.IsConnect();
-        //var cmd = new MySqlCommand(query, dbCon.Connection);
-        using (MySqlCommand command = new MySqlCommand())
-        {
-            command.Connection = dbConInsert.Connection;
-            command.CommandText = insertString;
-            command.Parameters.AddWithValue("@Title", "pizzaMan");
-            command.Parameters.AddWithValue("@Genre", "not funny");
-            command.Parameters.AddWithValue("@Year", 2042);
-
-            try
-            {
-                if (!duplicate)
-                {
-                    int recordsAffected = command.ExecuteNonQuery();
-                }
-            }
-            catch (System.Data.SqlClient.SqlException)
-            {
-                // error here
-            }
-        }
-    }
+    MVC5App.Scripts.Test.QueryTools QTools = new MVC5App.Scripts.Test.QueryTools();
+    outputString = QTools.readCSV("C:/Users/firapple/Source/Repos/Surge_Viewer/MVC5App/App_Data/surgedata.csv");
 
 }
 
