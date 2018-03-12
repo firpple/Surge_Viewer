@@ -158,5 +158,55 @@ namespace MVC5App.Scripts.Test
 
                 return outMessage;
         }
+
+        //query SQL return companies from topic constrant
+        public string returnCompanyFromTopic(string topic)
+        {
+            var outstring = "";
+            var companyByTopicCommand = "SELECT DISTINCT com.CompanyName From Company com ";
+            companyByTopicCommand += "INNER JOIN Surge s on com.CompanyID = s.CompanyID ";
+            companyByTopicCommand += "LEFT JOIN Topic top on top.TopicID = s.TopicID ";
+            companyByTopicCommand += "Where top.TopicName = @TopicName ";
+            //creates connection class instance
+            var dbCon = MVC5App.Models.DBConnection.Instance();
+            dbCon.DatabaseName = "YourDatabase";
+            //trys to connect once
+            if (dbCon.IsConnect())
+            {
+                //based on how the code is written, the connection can fail.
+                //This attempts to retry connection if intially failed.
+                int tryConnection = 0;
+                while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+                {
+                    dbCon.IsConnect();
+                    tryConnection++;
+                }
+
+                //company check
+
+                var cmd = new MySqlCommand(companyByTopicCommand, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@TopicName", topic);
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    outstring += reader.GetString(0) + "%";
+
+                }
+                reader.Close();
+                dbCon.Close();
+            }
+            return outstring;
+        }
+        //query SQL return topic from company constrant
+        public string returnTopicFromCompany(string company)
+        {
+            return "hello world";
+        }
+
+
+
+
+
     }
 }

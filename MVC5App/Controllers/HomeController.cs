@@ -46,15 +46,11 @@ namespace MVC5App.Controllers
 
             return View();
         }
-        public ActionResult WebForm1()
+        public ActionResult CompanyQueryByTopic()
         {
-            ViewBag.Message = "Your WebForm1 page.";
+            ViewBag.Message = "Your company query by topic page.";
 
             return View();
-        }
-        public int sendQuery()
-        {
-            return 1;
         }
     }
 }
