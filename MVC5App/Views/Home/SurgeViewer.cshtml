@@ -13,8 +13,20 @@
 }
 
 @{ 
-    string csDate = "2017 - 07 - 09 11:07:00 UTC";
+    List<string> myDates = new List<string>();
+    int year = 2020;
+    int month = 1;
+    int day = 1;
+
+
+    for (day = 1; day < 25; day++)
+    {
+        myDates.Add(string.Format("{0} - {1} - {2} 11:07:00 UTC", year, month, day));        
+    }
+    
+    string csDate = myDates[13];
 }
+
 <script src="~/Scripts/Test/JacksonScript.js"></script>
 
 <h2>SurgeViewer</h2>
@@ -26,6 +38,9 @@
     </script>
 
     <p>
+        @csDate
+        <hr />
+
         Print something from c#:
         <script>PrintDateFromStr("@csDate");</script>
     </p>
@@ -33,9 +48,32 @@
 
     <img src="~/Scripts/Test/download.jpg" />
 
-
 </p>
 
+<!-- How to print a C# loop-->
+
+@{ 
+    int[] csNums = new int[10];
+    for (int i = 0; i < 10; i++)
+    {
+        csNums[i] = i*2;
+    }
+}
+
+<p>
+    <script>
+        var jsNums = [];
+
+        @foreach (var num in csNums)
+        {
+            @:jsNums.push(@num);
+        }
+
+        for (i = 0; i < jsNums.length; i++) {
+            document.write(jsNums[i], "<br />");
+        }
+    </script>
+</p>
 
 
 <!-- BEGIN TRYING TO ADD CHARTS -->
@@ -93,7 +131,6 @@
 
     chart.addListener("dataUpdated", zoomChart);
 
-
     // generate some random data, quite different range
     function generateChartData() {
         var firstDate = new Date();
@@ -113,7 +150,7 @@
                 visits: visits
             });
 
-            document.write(newDate, " ", visits, "<br />");            
+            // document.write(newDate, " ", visits, "<br />");            
         }
     }
 

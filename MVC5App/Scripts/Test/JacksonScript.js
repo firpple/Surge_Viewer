@@ -6,7 +6,8 @@ function PrintHello() {
 
 function PrintDateFromStr(inputStr) {
     var dateArr = inputStr.split(" ");
-    var fullDate = new Date(dateArr[0], dateArr[2] + 1, dateArr[4]);
+    var fullDate = new Date();
 
-    document.write(fullDate);
+    fullDate.setFullYear(dateArr[0], dateArr[2] - 1, dateArr[4]);
+    document.write(fullDate, "<br />");
 }
