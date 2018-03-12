@@ -1,0 +1,42 @@
+﻿
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CompanyQueryByTopic</title>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>
+<form method="POST">
+    <div>Company name contains: <input name="companyName" /></div>
+    <input type="submit" />
+</form>
+@{
+    string queryString = "";
+    string[] companyList;
+    if (IsPost)
+    {
+        var companyString = Request.Form["companyName"];
+        var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
+        queryString = tempQueryTools.findCompanyWithString(companyString, "%");
+        companyList = queryString.Split('%');
+
+        <body>
+            Companies that contain @companyString
+        </body>
+        <table style="width:100%">
+            @foreach (string company in companyList)
+            {
+                <tr><th> @company</th></tr>
+            }
+        </table>
+
+    }
+
+}

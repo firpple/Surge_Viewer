@@ -58,5 +58,17 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public ActionResult FindCompany()
+        {
+            ViewBag.Message = "Your find company page.";
+
+            return View();
+        }
+        public ActionResult FindTopic()
+        {
+            ViewBag.Message = "Your find topic page.";
+
+            return View();
+        }
     }
 }

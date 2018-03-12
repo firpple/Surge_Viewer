@@ -238,8 +238,79 @@ namespace MVC5App.Scripts.Test
             return outstring;
         }
 
+        //query SQL find a company name
+        public string findCompanyWithString(string partName, string deliminator)
+        {
+            var outstring = "";
+            var companySearchCommand = "Select CompanyName From Company Where CompanyName LIKE @CompanyName";
+            //creates connection class instance
+            var dbCon = MVC5App.Models.DBConnection.Instance();
+            dbCon.DatabaseName = "YourDatabase";
+            //trys to connect once
+            if (dbCon.IsConnect())
+            {
+                //based on how the code is written, the connection can fail.
+                //This attempts to retry connection if intially failed.
+                int tryConnection = 0;
+                while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+                {
+                    dbCon.IsConnect();
+                    tryConnection++;
+                }
 
+                //company check
 
+                var cmd = new MySqlCommand(companySearchCommand, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@CompanyName", "%"+partName+"%");
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    outstring += reader.GetString(0) + deliminator;
+
+                }
+                reader.Close();
+                dbCon.Close();
+            }
+            return outstring;
+        }
+
+        //query SQL find a topic name
+        public string findTopicWithString(string partName, string deliminator)
+        {
+            var outstring = "";
+            var companySearchCommand = "Select TopicName From Topic Where TopicName LIKE @TopicName";
+            //creates connection class instance
+            var dbCon = MVC5App.Models.DBConnection.Instance();
+            dbCon.DatabaseName = "YourDatabase";
+            //trys to connect once
+            if (dbCon.IsConnect())
+            {
+                //based on how the code is written, the connection can fail.
+                //This attempts to retry connection if intially failed.
+                int tryConnection = 0;
+                while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+                {
+                    dbCon.IsConnect();
+                    tryConnection++;
+                }
+
+                //company check
+
+                var cmd = new MySqlCommand(companySearchCommand, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@TopicName", "%" + partName + "%");
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    outstring += reader.GetString(0) + deliminator;
+
+                }
+                reader.Close();
+                dbCon.Close();
+            }
+            return outstring;
+        }
 
 
     }
