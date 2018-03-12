@@ -566,6 +566,7 @@
     <Content Include="Views\Home\SurgeViewer.cshtml" />
     <Content Include="Views\Home\Tests.cshtml" />
     <Content Include="Views\Home\UploadPage.cshtml" />
+    <Content Include="Views\Home\TopicQueryByCompany.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

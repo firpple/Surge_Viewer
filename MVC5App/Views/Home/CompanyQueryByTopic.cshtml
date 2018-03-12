@@ -18,7 +18,6 @@
     <input type="submit" />
 </form>
 @{
-    string outstring = "hello";
     string queryString = "";
     string[] companyList;
     if(IsPost)
@@ -27,6 +26,8 @@
         var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
         queryString=tempQueryTools.returnCompanyFromTopic(topicString, "%");
         companyList = queryString.Split('%');
+        
+        <body>Companies that are interested in @topicString</body>
         <table style="width:100%">
             @foreach (string company in companyList)
             {
