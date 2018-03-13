@@ -70,5 +70,11 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public ActionResult FindSurge()
+        {
+            ViewBag.Message = "Your find surge page.";
+
+            return View();
+        }
     }
 }

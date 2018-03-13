@@ -22,14 +22,7 @@ namespace MVC5App.Scripts.Test
                 while (!parser.EndOfData)
                 {
                     //Processing row
-                    int index = 0;
                     string[] fields = parser.ReadFields();
-                    foreach (string field in fields)
-                    {
-                        outstring += index.ToString() + field + " \n ";
-                        index++;
-                    }
-                    index = 0;
                     tempRow.company_name = fields[0];
                     tempRow.domain = fields[1];
                     tempRow.ccm_companySize = fields[2];
@@ -42,9 +35,7 @@ namespace MVC5App.Scripts.Test
                     tempRow.metro_area = fields[9];
                     tempRow.domain_origin = fields[10];
                     tempRow.cdt = fields[11];
-                    outstring += "<><><><><";
-                    outstring += insertObject(tempRow);
-                    outstring += "><><><><>";
+                    insertObject(tempRow);
                 }
             }
             return outstring;
@@ -313,5 +304,48 @@ namespace MVC5App.Scripts.Test
         }
 
 
+        //query SQL find a topic name
+        public string findSurgeWithCompanyTopic(string company, string topic, string deliminator)
+        {
+            var outstring = "";
+            var surgeSearchCommand = "SELECT s.Date, s.Score FROM SurgeDB.Surge s ";
+            surgeSearchCommand += "INNER JOIN SurgeDB.Topic top on top.TopicID = s.TopicID ";
+            surgeSearchCommand += "LEFT JOIN SurgeDB.Company com on com.CompanyID = s.CompanyID ";
+            surgeSearchCommand += "WHERE ";
+            surgeSearchCommand += "com.CompanyName = @CompanyName ";
+            surgeSearchCommand += "AND top.TopicName = @TopicName ";
+            //creates connection class instance
+            var dbCon = MVC5App.Models.DBConnection.Instance();
+            dbCon.DatabaseName = "YourDatabase";
+            //trys to connect once
+            if (dbCon.IsConnect())
+            {
+                //based on how the code is written, the connection can fail.
+                //This attempts to retry connection if intially failed.
+                int tryConnection = 0;
+                while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+                {
+                    dbCon.IsConnect();
+                    tryConnection++;
+                }
+
+                //company check
+
+                var cmd = new MySqlCommand(surgeSearchCommand, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@CompanyName", company);
+                cmd.Parameters.AddWithValue("@TopicName", topic);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    outstring += reader.GetString(0) + deliminator;
+                    outstring += reader.GetString(1) + deliminator;
+
+                }
+                reader.Close();
+                dbCon.Close();
+            }
+            return outstring;
+        }
     }
 }
