@@ -1,55 +1,106 @@
-﻿@{
-    var result = "";
-    if (IsPost)
+﻿@using MySql.Data;
+@using MySql.Data.MySqlClient;
+
+@{
+    var checkCommandCompany = "SELECT * FROM Company WHERE CompanyName = @0";
+    
+
+
+
+    //code modifier: Evan Su
+
+
+    ViewBag.Title = "Tests";
+    //string that can be used for the html part
+    string outputString = "";
+    //creates connection class instance
+    var dbCon = MVC5App.Models.DBConnection.Instance();
+    dbCon.DatabaseName = "YourDatabase";
+    //trys to connect once
+    if (dbCon.IsConnect())
     {
-        var firstName = Request["FirstName"];
-        var lastName = Request["LastName"];
-        var email = Request["Email"];
+        //based on how the code is written, the connection can fail.
+        //This attempts to retry connection if intially failed.
+        int tryConnection = 0;
+        while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+        {
+            dbCon.IsConnect();
+            tryConnection++;
+        }
 
-        var userData = firstName + "," + lastName +
-            "," + email + Environment.NewLine;
 
-        var dataFile = Server.MapPath("~/App_Data/data.txt");
-        File.WriteAllText(@dataFile, userData);
-        result = "Information saved.";
-    }
-}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Write Data to a File</title>
-</head>
-<body>
-    <form id="form1" method="post">
-        <div>
-            <table>
-                <tr>
-                    <td>First Name:</td>
-                    <td>First Name:</td>
-                    <td>First Name:</td>
-                    <td><input id="FirstName" name="FirstName" type="text" /></td>
+        var cmd = new MySqlCommand(checkCommandCompany, dbCon.Connection);
+        cmd.Parameters.AddWithValue("@0", "irib");
+        if (dbCon.Connection.State == System.Data.ConnectionState.Open)
+        {
+            var reader = cmd.ExecuteReader();
 
-                </tr>
-                <tr>
-                    <td>Last Name:</td>
-                    <td><input id="LastName" name="LastName" type="text" /></td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input id="Email" name="Email" type="text" /></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Submit" /></td>
-                </tr>
-            </table>
-        </div>
-        <div>
-            @if (result != "")
+            while (reader.Read())
             {
-                <p>Result: @result</p>
+                outputString += "uvu";
+                outputString += reader.GetString(0);
+                outputString += reader.GetString(1);
+                outputString += reader.GetString(2);
+                outputString += "\n";
             }
-        </div>
-    </form>
-</body>
-</html>
+            reader.Close();
+        }
+        else
+        {
+            outputString = "noConnection";
+        }
+
+        dbCon.Close();
+    }
+
+    MVC5App.Scripts.Test.QueryTools QTools = new MVC5App.Scripts.Test.QueryTools();
+    //outputString = QTools.readCSV("C:/Users/firapple/Source/Repos/Surge_Viewer/MVC5App/App_Data/surgedata.csv");
+
+}
+
+<script type="text/c#" runat="server">
+    [System.Web.Services.WebMethod]
+    public static int sendQuery()
+    {
+    return 1;
+    }
+</script>
+
+<asp:ScriptManager ID="ScriptManager1"
+                   EnablePageMethods="true"
+                   EnablePartialRendering="true" runat="server" />
+
+<h2>@ViewBag.Title.</h2>
+
+<h3>Sample Query</h3>
+
+<p>
+    <br /><br />
+    @outputString<br /><br />
+</p>
+<asp:ScriptManager ID="scm" runat="server" EnablePageMethods="true" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
+    document.write('hello world');
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("sendQuery", "HomeController")',
+        data: "{}",
+        contentType: "application/json",
+        success: function (msg) {
+            onSucess();
+        },
+        error: function (msg) {
+            onError();
+        }
+    });
+    function onSucess(result) {
+        alert(result);
+    }
+
+    function onError(result) {
+        alert('error');
+    }
+
+    document.write('hello world2');
+</script>

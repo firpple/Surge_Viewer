@@ -46,5 +46,35 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        public ActionResult CompanyQueryByTopic()
+        {
+            ViewBag.Message = "Your company query by topic page.";
+
+            return View();
+        }
+        public ActionResult TopicQueryByCompany()
+        {
+            ViewBag.Message = "Your topic query by Company page.";
+
+            return View();
+        }
+        public ActionResult FindCompany()
+        {
+            ViewBag.Message = "Your find company page.";
+
+            return View();
+        }
+        public ActionResult FindTopic()
+        {
+            ViewBag.Message = "Your find topic page.";
+
+            return View();
+        }
+        public ActionResult FindSurge()
+        {
+            ViewBag.Message = "Your find surge page.";
+
+            return View();
+        }
     }
 }
