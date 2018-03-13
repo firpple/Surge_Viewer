@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CompanyQueryByTopic</title>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>
+<form method="POST">
+    <div>Exact Company Name: <input name="companyName" /></div>
+    <div>Exact Topic Name: <input name="topicName" /></div>
+    <input type="submit" />
+</form>
+@{
+    string queryString = "";
+    string[] topicList;
+    if (IsPost)
+    {
+        var companyString = Request.Form["companyName"];
+        var topicString = Request.Form["topicName"];
+        var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
+        queryString = tempQueryTools.findSurgeWithCompanyTopic(companyString, topicString, "%");
+        topicList = queryString.Split('%');
+        <body>
+            @companyString is interested in:
+        </body>
+        <table style="width:100%">
+            @foreach (string topic in topicList)
+            {
+                <tr><th> @topic</th></tr>
+            }
+        </table>
+
+    }
+
+}
