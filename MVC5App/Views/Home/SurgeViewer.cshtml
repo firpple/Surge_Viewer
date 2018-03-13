@@ -1,14 +1,35 @@
 ﻿@{
     ViewBag.Title = "SurgeViewer";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script src="~/Scripts/Test/JacksonScript.js"></script>
-
-<h2>SurgeViewer</h2>
-
 <script src="~/Scripts/amcharts/amcharts.js"></script>
 <script src="~/Scripts/amcharts/serial.js"></script>
+
+
+<h2>Surge Viewer</h2>
+@{
+    string queryString = "";
+    string[] topicList;
+
+    var companyString = "irib";
+    var topicString = "MySQL";
+
+    if (IsPost)
+    {
+        companyString = Request.Form["companyName"];
+        topicString = Request.Form["topicName"];
+    }
+
+    <form method="POST">
+        <input type="text" name="companyName" value="@companyString" />
+        <input type="text" name="topicName" value="@topicString" />
+        <input type="submit" value="Submit" />
+    </form>
+    <hr />
+}
+
 
 <script>
     var chartData = [];
@@ -65,20 +86,6 @@
 
         //Get the data from MySQL
         @{
-            string queryString = "";
-            string[] topicList;
-
-            var companyString = "irib";
-            var topicString = "MySQL";
-
-            if (IsPost)
-            {
-                companyString = Request.Form["companyName"];
-                topicString = Request.Form["topicName"];
-            }
-
-            @:document.write("<h3>@companyString, @topicString</h3>");
-
             var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
             queryString = tempQueryTools.findSurgeWithCompanyTopic(companyString, topicString, "%");
             topicList = queryString.Split('%');
