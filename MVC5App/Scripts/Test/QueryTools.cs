@@ -158,6 +158,7 @@ namespace MVC5App.Scripts.Test
             companyByTopicCommand += "INNER JOIN Surge s on com.CompanyID = s.CompanyID ";
             companyByTopicCommand += "LEFT JOIN Topic top on top.TopicID = s.TopicID ";
             companyByTopicCommand += "Where top.TopicName = @TopicName ";
+            companyByTopicCommand += "ORDER BY s.Score ";
             //creates connection class instance
             var dbCon = MVC5App.Models.DBConnection.Instance();
             dbCon.DatabaseName = "YourDatabase";
@@ -196,7 +197,8 @@ namespace MVC5App.Scripts.Test
             var companyByTopicCommand = "SELECT DISTINCT top.TopicName From Topic top ";
             companyByTopicCommand += "INNER JOIN Surge s on top.TopicID = s.TopicID ";
             companyByTopicCommand += "LEFT JOIN Company com on com.CompanyID = s.CompanyID  ";
-            companyByTopicCommand += "Where com.CompanyName = @CompanyName ";
+            companyByTopicCommand += "WHERE com.CompanyName = @CompanyName ";
+            companyByTopicCommand += "ORDER BY s.Score ";
             //creates connection class instance
             var dbCon = MVC5App.Models.DBConnection.Instance();
             dbCon.DatabaseName = "YourDatabase";
