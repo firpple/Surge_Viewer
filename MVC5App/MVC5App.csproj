@@ -570,6 +570,7 @@
     <Content Include="Views\Home\FindCompany.cshtml" />
     <Content Include="Views\Home\FindTopic.cshtml" />
     <Content Include="Views\Home\FindSurge.cshtml" />
+    <Content Include="Views\Home\CompanyQueryByTopic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

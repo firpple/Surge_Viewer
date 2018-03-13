@@ -9,7 +9,7 @@
     <title>CompanyQueryByTopic</title>
 </head>
 <body>
-    <div> 
+    <div>
     </div>
 </body>
 </html>
@@ -20,18 +20,20 @@
 @{
     string queryString = "";
     string[] companyList;
-    if(IsPost)
+    if (IsPost)
     {
         var topicString = Request.Form["topicName"];
         var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-        queryString=tempQueryTools.returnCompanyFromTopic(topicString, "%");
+        queryString = tempQueryTools.returnCompanyFromTopic(topicString, "%");
         companyList = queryString.Split('%');
-        
-        <body>Companies that are interested in @topicString</body>
+
+        <body>
+            Companies that are interested in @topicString
+        </body>
         <table style="width:100%">
             @foreach (string company in companyList)
             {
-            <tr><th> @company</th></tr>
+                <tr><th> @company</th></tr>
             }
         </table>
 
