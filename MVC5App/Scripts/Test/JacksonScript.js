@@ -13,6 +13,15 @@ function PrintDateFromStr(inputStr) {
 }
 
 
+function PrintDateFromStr2(inputStr) {
+    var dateArr = inputStr.split(" ")[0].split("-");
+    var fullDate = new Date();
+
+    fullDate.setFullYear(dateArr[0], dateArr[1] - 1, dateArr[2]);
+    document.write(fullDate);    
+}
+
+
 function ParseDate(inputStr) {
     var dateArr = inputStr.split(" ");
     var fullDate = new Date();
