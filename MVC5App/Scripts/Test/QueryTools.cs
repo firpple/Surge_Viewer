@@ -314,6 +314,7 @@ namespace MVC5App.Scripts.Test
             surgeSearchCommand += "WHERE ";
             surgeSearchCommand += "com.CompanyName = @CompanyName ";
             surgeSearchCommand += "AND top.TopicName = @TopicName ";
+            surgeSearchCommand += "Order BY s.Date";
             //creates connection class instance
             var dbCon = MVC5App.Models.DBConnection.Instance();
             dbCon.DatabaseName = "YourDatabase";
