@@ -185,6 +185,13 @@
     <Compile Include="Scripts\Test\CSVDataStruct.cs" />
     <Compile Include="Scripts\Test\QueryTools.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -508,6 +515,7 @@
     <Content Include="Scripts\amcharts\plugins\responsive\package.json" />
     <Content Include="Scripts\amcharts\plugins\responsive\readme.md" />
     <Content Include="Scripts\amcharts\plugins\responsive\responsive.min.js.map" />
+    <Content Include="WebForm1.aspx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

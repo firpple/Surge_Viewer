@@ -5,6 +5,7 @@ using System.Web;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using Microsoft.VisualBasic.FileIO;
+using System.IO;
 
 //code Author: Evan Su
 namespace MVC5App.Scripts.Test
@@ -39,6 +40,38 @@ namespace MVC5App.Scripts.Test
                 }
             }
             return outstring;
+        }
+
+        public int insertString(string rowString)
+        {
+
+            //Processing row
+
+            CSVDataStruct tempRow = new CSVDataStruct();
+            //creates a stream
+            var stream = new MemoryStream();
+            var bytes = System.Text.Encoding.Default.GetBytes(rowString);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            TextFieldParser parser = new TextFieldParser(stream);
+            parser.TextFieldType = FieldType.Delimited;
+            parser.SetDelimiters(",");
+            string[] fields = parser.ReadFields();
+            tempRow.company_name = fields[0];
+            tempRow.domain = fields[1];
+            tempRow.ccm_companySize = fields[2];
+            tempRow.ccm_industry = fields[3];
+            tempRow.category_name = fields[4];
+            tempRow.topic_id = fields[5];
+            tempRow.topic_name = fields[6];
+            tempRow.composite_score = fields[7];
+            tempRow.country = fields[8];
+            tempRow.metro_area = fields[9];
+            tempRow.domain_origin = fields[10];
+            tempRow.cdt = fields[11];
+            insertObject(tempRow);
+            return 0;
         }
 
         public string insertObject(CSVDataStruct insertRow)
