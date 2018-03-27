@@ -40,3 +40,15 @@
     }
 
 }
+
+
+
+@{
+    Html.BeginForm("HandleForm", "Home");
+    <p>Hi</p>  
+    <input type="text" name="company" value="Company" />
+    <input type="text" name="topic" value="Topic" />
+    <input type="submit" value="Submit"/>
+    Html.EndForm();
+
+}

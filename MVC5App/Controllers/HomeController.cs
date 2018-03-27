@@ -76,5 +76,14 @@ namespace MVC5App.Controllers
 
             return View();
         }
+
+        //https://msdn.microsoft.com/en-us/library/dd410596(v=vs.100).aspx        
+        public ActionResult HandleForm(string company, string topic)
+        {
+            ViewData["company"] = company;
+            ViewData["topic"] = topic;
+
+            return View("SurgeViewer");
+        }
     }
 }

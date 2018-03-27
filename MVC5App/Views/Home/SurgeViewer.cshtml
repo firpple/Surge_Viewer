@@ -8,6 +8,13 @@
 <script src="~/Scripts/amcharts/serial.js"></script>
 
 
+
+<p>
+    Company: @Html.Encode(ViewData["company"]);
+    Topic: @ViewData["topic"];
+</p>
+
+
 <h2>Surge Viewer</h2>
 @{
     string queryString = "";
