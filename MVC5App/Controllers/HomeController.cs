@@ -78,7 +78,7 @@ namespace MVC5App.Controllers
         }
 
         //https://msdn.microsoft.com/en-us/library/dd410596(v=vs.100).aspx
-        [HttpPost]
+        [HttpGet]
         public ActionResult HandleForm(string companyName, string topicName)
         {
             ViewData["companyName"] = companyName;
