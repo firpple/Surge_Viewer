@@ -32,7 +32,7 @@
         <table style="width:100%">
             @foreach (string topic in topicList)
             {
-                <tr><th> @topic</th></tr>
+                <tr><th><a href="~/Home/PlotData?companyName=@companyString&topicName=@topic">@topic</a></th></tr>
             }
         </table>
         

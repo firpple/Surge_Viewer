@@ -76,5 +76,15 @@ namespace MVC5App.Controllers
 
             return View();
         }
+
+        //https://msdn.microsoft.com/en-us/library/dd410596(v=vs.100).aspx
+        [HttpGet]
+        public ActionResult PlotData(string companyName, string topicName)
+        {
+            ViewData["companyName"] = companyName;
+            ViewData["topicName"] = topicName;
+
+            return View("SurgeViewer");
+        }        
     }
 }

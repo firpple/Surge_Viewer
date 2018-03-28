@@ -7,7 +7,6 @@
 <script src="~/Scripts/amcharts/amcharts.js"></script>
 <script src="~/Scripts/amcharts/serial.js"></script>
 
-
 <h2>Surge Viewer</h2>
 @{
     string queryString = "";
@@ -16,20 +15,19 @@
     var companyString = "irib";
     var topicString = "MySQL";
 
-    if (IsPost)
+    if (true)
     {
-        companyString = Request.Form["companyName"];
-        topicString = Request.Form["topicName"];
+        companyString = (string)ViewData["companyName"];
+        topicString = (string)ViewData["topicName"];
     }
 
-    <form method="POST">
+    <form method="GET">
         <input type="text" name="companyName" value="@companyString" />
         <input type="text" name="topicName" value="@topicString" />
         <input type="submit" value="Submit" />
     </form>
     <hr />
 }
-
 
 <script>
     var chartData = [];
