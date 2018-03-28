@@ -12,22 +12,24 @@
     string queryString = "";
     string[] topicList;
 
-    var companyString = "irib";
-    var topicString = "MySQL";
+    string companyString = (string)ViewData["companyName"];
+    string topicString = (string)ViewData["topicName"];
 
-    if (true)
+    if (companyString.IsEmpty() || topicString.IsEmpty())
     {
-        companyString = (string)ViewData["companyName"];
-        topicString = (string)ViewData["topicName"];
+        companyString = "irib";
+        topicString = "MySQL";
     }
 
-    <form method="GET">
-        <input type="text" name="companyName" value="@companyString" />
-        <input type="text" name="topicName" value="@topicString" />
-        <input type="submit" value="Submit" />
-    </form>
-    <hr />
+    Html.BeginForm("PlotData", "Home", FormMethod.Get);
+    <input type="text" name="companyName" value="@companyString" />
+    <input type="text" name="topicName" value="@topicString" />
+    <input type="submit" value="Submit" />
+    Html.EndForm();
+
 }
+
+<hr />
 
 <script>
     var chartData = [];
