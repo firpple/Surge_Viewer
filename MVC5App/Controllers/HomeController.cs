@@ -85,6 +85,11 @@ namespace MVC5App.Controllers
             ViewData["topicName"] = topicName;
 
             return View("SurgeViewer");
-        }        
+        }
+
+        public ActionResult SinglePage()
+        {
+            return View();
+        }
     }
 }
