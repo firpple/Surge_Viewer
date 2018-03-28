@@ -7,15 +7,8 @@
 <script src="~/Scripts/amcharts/amcharts.js"></script>
 <script src="~/Scripts/amcharts/serial.js"></script>
 
-
-
 <p>
-    Company: @Html.Encode(ViewData["companyName"]);
-    Topic: @ViewData["topicName"];
-</p>
-
-<p>
-    <a href="~/Home/HandleForm?companyName=irib&topicName=R">CLICK ME!</a>
+    <a href="~/Home/PlotData?companyName=irib&topicName=R">CLICK ME!</a>
 </p>
 
 <h2>Surge Viewer</h2>
@@ -39,7 +32,6 @@
     </form>
     <hr />
 }
-
 
 <script>
     var chartData = [];

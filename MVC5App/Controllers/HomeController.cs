@@ -79,7 +79,7 @@ namespace MVC5App.Controllers
 
         //https://msdn.microsoft.com/en-us/library/dd410596(v=vs.100).aspx
         [HttpGet]
-        public ActionResult HandleForm(string companyName, string topicName)
+        public ActionResult PlotData(string companyName, string topicName)
         {
             ViewData["companyName"] = companyName;
             ViewData["topicName"] = topicName;
