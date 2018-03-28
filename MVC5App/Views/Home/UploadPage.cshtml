@@ -5,6 +5,7 @@
 <div id="byte_range"></div>
 
 <script type="text/javascript">
+    /*
     $(function () {
         $.ajax({
             type: 'POST',
@@ -22,6 +23,7 @@
             }
         });
     });
+    */
 </script>
 
 
@@ -87,13 +89,13 @@
                 //this is the upload code
                 var output = "";
                 var allRows = evt.target.result.split('\n');
-                alert("hello in function");
+                //alert("hello in function");
                 var parameterStrings = {};
                 for (var singleRow = 0; singleRow < allRows.length; singleRow++)
                 {
                     var rowCells = allRows[singleRow].split(',');
                     var rowString = allRows[singleRow];
-                    output += rowString + "<><><><<><><";
+                    //output += rowString + "<><><><<><><";
                     //alert(parameterString);
                     /*
                     (function (inputString) {
@@ -115,6 +117,8 @@
                         });
                     })(rowString);
                     */
+
+                    document.getElementById('byte_content').textContent = rowString;
                     (function (inputString) {
                         $.ajax({
                             type: 'POST',
@@ -123,9 +127,13 @@
                             data: JSON.stringify({ rowStringInput: inputString }),
                             contentType: 'application/json; charset=utf-8',
                             dataType: 'json',
+                            complete: function () {
+                                setTimeout(1000);
+                            },
                             success: function (msg) {
                                 // Notice that msg.d is used to retrieve the result object
                                 //alert(msg.d);
+                                document.getElementById('byte_content').textContent = inputString;
                             },
                             error: function (xhr, status, error) {
                                 var err = eval("(" + xhr.responseText + ")");
@@ -136,7 +144,7 @@
                     
                 }
 
-                document.getElementById('byte_content').textContent = output;
+                //document.getElementById('byte_content').textContent = output;
                 //document.getElementById('byte_content').textContent = evt.target.result;
                 document.getElementById('byte_range').textContent =
                     ['Read bytes: ', start + 1, ' - ', stop + 1,
