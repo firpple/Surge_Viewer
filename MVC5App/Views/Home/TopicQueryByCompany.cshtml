@@ -50,8 +50,10 @@
 <div ng-app="myApp" ng-controller="myCtrl">
 
     <button ng-click="count = myWelcome">Click Me!</button>
-
-    <p>{{ count.split(';')[2].trim() }}</p>
+        
+    <div href="#" ng-repeat="x in count.split(';')">
+        <a href="~/Home/PlotData?companyName=irib&topicName={{x.trim()}}">{{x.trim()}}</a>        
+    </div>
 </div>
 
 <script>
