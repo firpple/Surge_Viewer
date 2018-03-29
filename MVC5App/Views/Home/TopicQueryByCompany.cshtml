@@ -51,15 +51,16 @@
 
     <button ng-click="count = myWelcome">Click Me!</button>
 
-    <p>{{ count }}</p>
-
+    <p>{{ count.split(';')[2].trim() }}</p>
 </div>
+
 <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
         $http.get("/Home/SinglePage?companyName=irib")
             .then(function (response) {
-                $scope.myWelcome = response.data;
+                var topicList = response.data;
+                $scope.myWelcome = topicList;                
             });
     });
 </script>
