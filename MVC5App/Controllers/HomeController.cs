@@ -58,6 +58,15 @@ namespace MVC5App.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult SinglePage(string companyName)
+        {
+            ViewData["companyName"] = companyName;
+
+            return View("SinglePage");
+        }
+
         public ActionResult FindCompany()
         {
             ViewBag.Message = "Your find company page.";

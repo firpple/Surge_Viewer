@@ -1,6 +1,18 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
-Hey Dude
+@{
+    string queryString = "";
+    string[] topicList;
+
+    var companyString = (string)ViewData["companyName"];
+    var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
+    queryString = tempQueryTools.returnTopicFromCompany(companyString, "%");
+    topicList = queryString.Split('%');
+
+    foreach (string topic in topicList)
+    {
+        @:@topic;
+    }
+}
