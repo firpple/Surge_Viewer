@@ -68,7 +68,28 @@
             lineColor: "#b5030d",
             negativeLineColor: "#0352b5",
             balloonText: "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>"
+        },
+        {
+            title: "blue line",
+            id: "g2",
+            valueAxis: "v1",
+            valueField: "lols",
+            bullet: "round",
+            bulletBorderColor: "#FFFFFF",
+            bulletBorderAlpha: 1,
+            lineThickness: 2,
+            lineColor: "#0000ff",
+            negativeLineColor: "#0352b5",
+            balloonText: "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>"
         }],
+        legend: {
+            position: "bottom",
+            valueText: "[[value]]",
+            valueWidth: 100,
+            valueAlign: "left",
+            equalWidths: false,
+            periodValueText: ""
+        },
         chartCursor: {
             fullWidth: true,
             cursorAlpha: 0.1
@@ -98,11 +119,13 @@
             var newDate = new Date(firstDate);
             newDate.setDate(newDate.getDate() + i);
 
-            var visits = Math.round(Math.random() * 40) - 20;
+            var visits = Math.round(Math.random() * 50);
+            var lols = Math.round(Math.random() * 50);
 
             chartData.push({
                 date: newDate,
-                visits: visits
+                visits: visits,
+                lols: lols
             });
         }
     }
