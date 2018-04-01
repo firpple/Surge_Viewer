@@ -135,27 +135,42 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
-<div id="dvFirst">
-    <div ng-controller="myCtrl">
+<table style="width:100%">
+    <tr>
+        <td style="width:50%; vertical-align:top;">
+            <div id="dvFirst">
+                <div ng-controller="myCtrl">
 
-        Show more topics: <button ng-click="count = myWelcome">Submit</button>
+                    <h2 style="text-align:center">Company: @companyString</h2>
+                    <h4 style="text-align:center">More topics for @companyString
+                    <button ng-click="count = myWelcome">Submit</button></h4>
 
-        <div href="#" ng-repeat="x in count.split(';')">
-            <a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim()}}">{{x.trim()}}</a>
-        </div>
-    </div>
-</div>
+                    <div href="#" ng-repeat="x in count.split(';')">
+                        <a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim()}}">{{x.trim()}}</a>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td style="width:50%; vertical-align:top;">
+            <div id="dvSecond">
+                <div ng-controller="myCtrl2">
 
-<div id="dvSecond">
-    <div ng-controller="myCtrl2">
+                    <h2 style="text-align:center">Topic: @topicString</h2>
+                    <h4 style="text-align:center">More companies for @topicString
+                    <button ng-click="count2 = myWelcome2">Submit</button></h4>
 
-        Show more topics: <button ng-click="count2 = myWelcome2">Submit</button>
+                    <div href="#" ng-repeat="x2 in count2.split(';')">
+                        <a href="~/Home/PlotData?companyName={{x2.trim()}}&topicName=@topicString">{{x2.trim()}}</a>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
 
-        <div href="#" ng-repeat="x2 in count2.split(';')">
-            <a href="~/Home/PlotData?companyName={{x2.trim()}}&topicName=@topicString">{{x2.trim()}}</a>
-        </div>
-    </div>
-</div>
+
+
+
 
 
 <script>
