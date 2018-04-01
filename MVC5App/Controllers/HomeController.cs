@@ -67,6 +67,14 @@ namespace MVC5App.Controllers
             return View("SinglePage");
         }
 
+        [HttpGet]
+        public ActionResult SinglePageCompanies(string topicName)
+        {
+            ViewData["topicName"] = topicName;
+
+            return View("SinglePageCompanies");
+        }
+
         public ActionResult FindCompany()
         {
             ViewBag.Message = "Your find company page.";
@@ -97,6 +105,11 @@ namespace MVC5App.Controllers
         }
 
         public ActionResult SinglePage()
+        {
+            return View();
+        }
+
+        public ActionResult SinglePageCompanies()
         {
             return View();
         }
