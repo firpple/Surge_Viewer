@@ -122,11 +122,21 @@
             var visits = Math.round(Math.random() * 50);
             var lols = Math.round(Math.random() * 50);
 
-            chartData.push({
-                date: newDate,
-                visits: visits,
-                lols: lols
-            });
+            if (i > 490 && i < 495) {
+                chartData.push({
+                    date: newDate,                    
+                    lols: lols
+                });
+            }
+            else {
+                chartData.push({
+                    date: newDate,
+                    visits: visits,
+                    lols: lols
+                });
+            }
+
+                        
         }
     }
 
