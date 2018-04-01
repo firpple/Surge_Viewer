@@ -127,3 +127,30 @@
     <input type="radio" checked="true" name="group" id="rb1" onclick="setPanSelect()">Select
     <input type="radio" name="group" id="rb2" onclick="setPanSelect()">Pan
 </div>
+
+
+<hr />
+
+<p>AngularJS pulls irib data from database without reloading page</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+    <button ng-click="count = myWelcome">Click Me!</button>
+
+    <div href="#" ng-repeat="x in count.split(';')">
+        <a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim()}}">{{x.trim()}}</a>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/Home/SinglePage?companyName=@companyString")
+            .then(function (response) {
+                var topicList = response.data;
+                $scope.myWelcome = topicList;
+            });
+    });
+</script>

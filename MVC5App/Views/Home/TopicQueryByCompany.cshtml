@@ -46,6 +46,7 @@
 <p>AngularJS pulls irib data from database without reloading page</p>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script>var myCompany = "irib"</script>
 
 <div ng-app="myApp" ng-controller="myCtrl">
 
@@ -59,7 +60,7 @@
 <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("/Home/SinglePage?companyName=irib")
+        $http.get("/Home/SinglePage?companyName=" + myCompany)
             .then(function (response) {
                 var topicList = response.data;
                 $scope.myWelcome = topicList;                
