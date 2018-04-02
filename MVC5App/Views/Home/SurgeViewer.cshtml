@@ -128,10 +128,7 @@
     <input type="radio" name="group" id="rb2" onclick="setPanSelect()">Pan
 </div>
 
-
 <hr />
-
-<p>AngularJS displays DB query without reloading page</p>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
@@ -143,9 +140,9 @@
 
                     <h2 style="text-align:center">Company: @companyString</h2>
                     <h4 style="text-align:center">More topics for @companyString
-                    <button ng-click="count = myWelcome">Submit</button></h4>
+                    <button ng-click="count = myWelcome; hdr = myHeader; score = myScore">Submit</button></h4>
                     <table>
-                        <tr><th>Additional Topic</th><th>Score</th></tr>
+                        <tr><th>{{hdr}}</th><th>{{score}}</th></tr>
                         <tr href="#" ng-repeat="x in count.split(';')">
                             <td><a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a></td>
                             <td>{{x.trim().split('|')[1]}}</td>
@@ -160,9 +157,9 @@
 
                     <h2 style="text-align:center">Topic: @topicString</h2>
                     <h4 style="text-align:center">More companies for @topicString
-                    <button ng-click="count2 = myWelcome2">Submit</button></h4>
+                    <button ng-click="count2 = myWelcome2; hdr2 = myHeader2; score2 = myScore2;">Submit</button></h4>
                     <table>
-                        <tr><th>Additional Company</th><th>Score</th></tr>
+                        <tr><th>{{hdr2}}</th><th>{{score2}}</th></tr>
                         <tr href="#" ng-repeat="x2 in count2.split(';')">
                             <td><a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a></td>
                             <td>{{x2.trim().split('|')[1]}}</td>
@@ -186,6 +183,8 @@
             .then(function (response) {
                 var topicList = response.data;
                 $scope.myWelcome = topicList;
+                $scope.myHeader = "Additional Topics";
+                $scope.myScore = "Score";
             });
     });
 
@@ -196,6 +195,8 @@
             .then(function (response) {
                 var companyList = response.data;
                 $scope.myWelcome2 = companyList;
+                $scope.myHeader2 = "Additional Companies";
+                $scope.myScore2 = "Score";
             });
     });
 
