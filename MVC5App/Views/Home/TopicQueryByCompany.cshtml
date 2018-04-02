@@ -1,34 +1,30 @@
-﻿
-
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CompanyQueryByTopic</title>
-</head>
-<body>
-    <div>
-    </div>
-</body>
-</html>
+﻿<h2>
+    @{ 
+        var companyString = (string)ViewData["companyName"];
+        if (companyString.IsEmpty())
+        {
+            @:Find topics for a company
+        }
+        else
+        {
+            @:Topics for @companyString
+        }
+    }    
+</h2>
 <form method="get">
-    <div>Exact Company Name: <input name="companyName" /></div>
-    <input type="submit" />
+    <div><input value="Exact Company Name" name="companyName" /> <input type="submit" /></div>    
 </form>
 @{
     string queryString = "";
     string[] topicList;
-    if (!((string)ViewData["companyName"]).IsEmpty())
+    if (!companyString.IsEmpty())
     {
-        var companyString = (string)ViewData["companyName"];
         var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
         queryString = tempQueryTools.returnTopicFromCompanyWithScore(companyString, "%");
         topicList = queryString.Split('%');
         var ScoreString = "";
         var topic = "";
-        
+
         @:@companyString is interested in:
         
         <table style="width:100%">
