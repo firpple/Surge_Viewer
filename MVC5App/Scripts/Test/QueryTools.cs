@@ -223,6 +223,50 @@ namespace MVC5App.Scripts.Test
             }
             return outstring;
         }
+
+        //query SQL return companies from topic constrant
+        //Returns the score as well
+        public string returnCompanyFromTopicWithScore(string topic, string deliminator)
+        {
+            var outstring = "";
+            var companyByTopicCommand = "select Distinct com.CompanyName, s.Score from Surge s "
+                                    + "inner join Company com on com.CompanyID = s.CompanyID "
+                                    + "inner join Topic top on top.TopicID = s.TopicID "
+                                    + "left outer join Surge s2 on(s.CompanyID = s2.CompanyID and s.TopicID = s2.TopicID and s.Date<s2.Date) "
+                                    + "where top.TopicName = @TopicName and s2.SurgeID is null "
+                                    + "Order by s.Score desc ";
+            //creates connection class instance
+            var dbCon = MVC5App.Models.DBConnection.Instance();
+            dbCon.DatabaseName = "YourDatabase";
+            //trys to connect once
+            if (dbCon.IsConnect())
+            {
+                //based on how the code is written, the connection can fail.
+                //This attempts to retry connection if intially failed.
+                int tryConnection = 0;
+                while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+                {
+                    dbCon.IsConnect();
+                    tryConnection++;
+                }
+
+                //company check
+
+                var cmd = new MySqlCommand(companyByTopicCommand, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@TopicName", topic);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    outstring += reader.GetString(0) + deliminator;
+                    outstring += reader.GetString(1) + deliminator;
+
+                }
+                reader.Close();
+                dbCon.Close();
+            }
+            return outstring;
+        }
         //query SQL return topic from company constrant
         public string returnTopicFromCompany(string company, string deliminator)
         {
@@ -256,6 +300,50 @@ namespace MVC5App.Scripts.Test
                 while (reader.Read())
                 {
                     outstring += reader.GetString(0) + deliminator;
+
+                }
+                reader.Close();
+                dbCon.Close();
+            }
+            return outstring;
+        }
+
+        //query SQL return topic from company constrant
+        //Returns the score as well
+        public string returnTopicFromCompanyWithScore(string company, string deliminator)
+        {
+            var outstring = "";
+            var companyByTopicCommand = "select Distinct top.TopicName, s.Score from Surge s "
+                                    + "inner join Company com on com.CompanyID = s.CompanyID "
+                                    + "inner join Topic top on top.TopicID = s.TopicID "
+                                    + "left outer join Surge s2 on(s.CompanyID = s2.CompanyID and s.TopicID = s2.TopicID and s.Date<s2.Date) "
+                                    + "where com.CompanyName = @CompanyName and s2.SurgeID is null "
+                                    + "Order by s.Score desc ";
+            //creates connection class instance
+            var dbCon = MVC5App.Models.DBConnection.Instance();
+            dbCon.DatabaseName = "YourDatabase";
+            //trys to connect once
+            if (dbCon.IsConnect())
+            {
+                //based on how the code is written, the connection can fail.
+                //This attempts to retry connection if intially failed.
+                int tryConnection = 0;
+                while (dbCon.Connection.State != System.Data.ConnectionState.Open && tryConnection < 10)
+                {
+                    dbCon.IsConnect();
+                    tryConnection++;
+                }
+
+                //company check
+
+                var cmd = new MySqlCommand(companyByTopicCommand, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@CompanyName", company);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    outstring += reader.GetString(0) + deliminator;
+                    outstring += reader.GetString(1) + deliminator;
 
                 }
                 reader.Close();

@@ -24,16 +24,20 @@
     {
         var topicString = Request.Form["topicName"];
         var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-        queryString = tempQueryTools.returnCompanyFromTopic(topicString, "%");
+        var ScoreString = "";
+        var company = "";
+        queryString = tempQueryTools.returnCompanyFromTopicWithScore(topicString, "%");
         companyList = queryString.Split('%');
 
         <body>
             Companies that are interested in @topicString
         </body>
         <table style="width:100%">
-            @foreach (string company in companyList)
+            @for (int index = 0; index < companyList.Length - 1; index += 2)
             {
-                <tr><th><a href="~/Home/PlotData?companyName=@company&topicName=@topicString">@company</a></th></tr>
+                company = companyList[index];
+                ScoreString = companyList[index + 1];
+                <tr><th><a href="~/Home/PlotData?companyName=@company&topicName=@topicString">@company @ScoreString</a></th></tr>
             }
         </table>
 
