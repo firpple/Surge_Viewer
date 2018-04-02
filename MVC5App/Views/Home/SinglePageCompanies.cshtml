@@ -5,14 +5,18 @@
 @{
     string queryString = "";
     string[] companyList;
-    
+
     var topicString = (string)ViewData["topicName"];
     var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-    queryString = tempQueryTools.returnCompanyFromTopic(topicString, "%");
+    queryString = tempQueryTools.returnCompanyFromTopicWithScore(topicString, "%");
     companyList = queryString.Split('%');
-        
-    foreach (string company in companyList)
+    var ScoreString = "";
+    var company = "";
+
+    for (int index = 0; index < companyList.Length - 1; index += 2)
     {
-        @:@company;
+        company = companyList[index];
+        ScoreString = companyList[index + 1];
+        @:@company|@ScoreString;
     }
 }

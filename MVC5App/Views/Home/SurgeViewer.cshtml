@@ -146,7 +146,7 @@
                     <button ng-click="count = myWelcome">Submit</button></h4>
 
                     <div href="#" ng-repeat="x in count.split(';')">
-                        <a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim()}}">{{x.trim()}}</a>
+                        <a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a> {{x.trim().split('|')[1]}}
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                     <button ng-click="count2 = myWelcome2">Submit</button></h4>
 
                     <div href="#" ng-repeat="x2 in count2.split(';')">
-                        <a href="~/Home/PlotData?companyName={{x2.trim()}}&topicName=@topicString">{{x2.trim()}}</a>
+                        <a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a> {{x2.trim().split('|')[1]}}
                     </div>
                 </div>
             </div>

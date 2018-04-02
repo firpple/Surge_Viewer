@@ -8,11 +8,16 @@
 
     var companyString = (string)ViewData["companyName"];
     var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-    queryString = tempQueryTools.returnTopicFromCompany(companyString, "%");
+    queryString = tempQueryTools.returnTopicFromCompanyWithScore(companyString, "%");
     topicList = queryString.Split('%');
+    var ScoreString = "";
+    var topic = "";
 
-    foreach (string topic in topicList)
+
+    for (int index = 0; index < topicList.Length - 1; index += 2)
     {
-        @:@topic;
+        topic = topicList[index];
+        ScoreString = topicList[index + 1];
+        @:@topic|@ScoreString;
     }
 }
