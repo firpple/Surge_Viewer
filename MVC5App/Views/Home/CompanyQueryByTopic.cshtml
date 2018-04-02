@@ -14,6 +14,7 @@
 <form method="get">
     <div><input value="Exact Topic Name" name="topicName" /> <input type="submit" /></div>    
 </form>
+<hr />
 @{
     string queryString = "";
     string[] companyList;
@@ -27,12 +28,12 @@
 
         @:Companies that are interested in @topicString:
         
-        <table style="width:100%">
+        <table>
             @for (int index = 0; index < companyList.Length - 1; index += 2)
             {
                 company = companyList[index];
                 ScoreString = companyList[index + 1];
-                <tr><th><a href="~/Home/PlotData?companyName=@company&topicName=@topicString">@company @ScoreString</a></th></tr>
+                <tr><td><a href="~/Home/PlotData?companyName=@company&topicName=@topicString">@company</a></td><td style="padding-left:20px">@ScoreString</td></tr>
             }
         </table>
     }

@@ -14,6 +14,7 @@
 <form method="get">
     <div><input value="Exact Company Name" name="companyName" /> <input type="submit" /></div>    
 </form>
+<hr />
 @{
     string queryString = "";
     string[] topicList;
@@ -27,12 +28,12 @@
 
         @:@companyString is interested in:
         
-        <table style="width:100%">
+        <table>
             @for(int index = 0; index < topicList.Length - 1; index +=2)
             {
                 topic = topicList[index];
                 ScoreString = topicList[index + 1];
-            <tr><th><a href="~/Home/PlotData?companyName=@companyString&topicName=@topic">@topic @ScoreString</a></th></tr>
+            <tr><td><a href="~/Home/PlotData?companyName=@companyString&topicName=@topic">@topic</a></td><td style="padding-left:20px">@ScoreString</td></tr>
             }
         </table>
         
