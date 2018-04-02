@@ -144,10 +144,13 @@
                     <h2 style="text-align:center">Company: @companyString</h2>
                     <h4 style="text-align:center">More topics for @companyString
                     <button ng-click="count = myWelcome">Submit</button></h4>
-
-                    <div href="#" ng-repeat="x in count.split(';')">
-                        <a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a> {{x.trim().split('|')[1]}}
-                    </div>
+                    <table>
+                        <tr><th>Additional Topic</th><th>Score</th></tr>
+                        <tr href="#" ng-repeat="x in count.split(';')">
+                            <td><a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a></td>
+                            <td>{{x.trim().split('|')[1]}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </td>
@@ -158,10 +161,13 @@
                     <h2 style="text-align:center">Topic: @topicString</h2>
                     <h4 style="text-align:center">More companies for @topicString
                     <button ng-click="count2 = myWelcome2">Submit</button></h4>
-
-                    <div href="#" ng-repeat="x2 in count2.split(';')">
-                        <a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a> {{x2.trim().split('|')[1]}}
-                    </div>
+                    <table>
+                        <tr><th>Additional Company</th><th>Score</th></tr>
+                        <tr href="#" ng-repeat="x2 in count2.split(';')">
+                            <td><a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a></td>
+                            <td>{{x2.trim().split('|')[1]}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </td>
