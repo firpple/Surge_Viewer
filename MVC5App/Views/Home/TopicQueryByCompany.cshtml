@@ -13,24 +13,24 @@
     </div>
 </body>
 </html>
-<form method="POST">
+<form method="get">
     <div>Exact Company Name: <input name="companyName" /></div>
     <input type="submit" />
 </form>
 @{
     string queryString = "";
     string[] topicList;
-    if (IsPost)
+    if (!((string)ViewData["companyName"]).IsEmpty())
     {
-        var companyString = Request.Form["companyName"];
+        var companyString = (string)ViewData["companyName"];
         var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
         queryString = tempQueryTools.returnTopicFromCompanyWithScore(companyString, "%");
         topicList = queryString.Split('%');
         var ScoreString = "";
         var topic = "";
-        <body>
-            @companyString is interested in:
-        </body>
+        
+        @:@companyString is interested in:
+        
         <table style="width:100%">
             @for(int index = 0; index < topicList.Length - 1; index +=2)
             {

@@ -52,9 +52,28 @@ namespace MVC5App.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult CompanyQueryByTopic(string topicName)
+        {
+            ViewBag.Message = "Your company query by topic page.";
+            ViewData["topicName"] = topicName;
+
+            return View();
+        }
+
         public ActionResult TopicQueryByCompany()
         {
             ViewBag.Message = "Your topic query by Company page.";
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult TopicQueryByCompany(string companyName)
+        {
+            ViewBag.Message = "Your topic query by Company page.";
+            ViewData["companyName"] = companyName;
 
             return View();
         }

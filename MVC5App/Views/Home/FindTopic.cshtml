@@ -1,19 +1,4 @@
-﻿
-
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CompanyQueryByTopic</title>
-</head>
-<body>
-    <div>
-    </div>
-</body>
-</html>
-<form method="POST">
+﻿<form method="POST">
     <div>Topic name contains: <input name="TopicName" /></div>
     <input type="submit" />
 </form>
@@ -27,16 +12,13 @@
         queryString = tempQueryTools.findTopicWithString(topicString, "%");
         topicList = queryString.Split('%');
 
-        <body>
-            Topics that contain @topicString
-        </body>
+        @:Topics that contain @topicString
+        
         <table style="width:100%">
             @foreach (string topic in topicList)
             {
-                <tr><th> @topic</th></tr>
+                <tr><th><a href="~/Home/CompanyQueryByTopic?topicName=@topic">@topic</a></th></tr>
             }
         </table>
-
     }
-
 }
