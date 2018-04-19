@@ -1,24 +1,28 @@
-﻿<h2>Company Search</h2>
-<form method="POST">
-    <div><input value="Company name contains" name="companyName" /> <input type="submit" /></div>    
-</form>
-@{
-    string queryString = "";
-    string[] companyList;
-    if (IsPost)
-    {
-        var companyString = Request.Form["companyName"];
-        var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-        queryString = tempQueryTools.findCompanyWithString(companyString, "%");
-        companyList = queryString.Split('%');
+﻿
+<div class="jumbotron">
+    <h2>Company Search</h2>
+    <form method="POST">
+        <div><input value="Company name contains" name="companyName" /> <input type="submit" /></div>
+    </form>
+    @{
+        string queryString = "";
+        string[] companyList;
+        if (IsPost)
+        {
+            var companyString = Request.Form["companyName"];
+            var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
+            queryString = tempQueryTools.findCompanyWithString(companyString, "%");
+            companyList = queryString.Split('%');
 
-        @:Companies that contain @companyString
-        
-        <table style="width:100%">
-            @foreach (string company in companyList)
-            {
-                <tr><th><a href="~/Home/TopicQueryByCompany?companyName=@company">@company</a></th></tr>
-            }
-        </table>
+            @:Companies that contain @companyString
+
+
+            <table style="width:100%">
+                @foreach (string company in companyList)
+                {
+                    <tr><th><a href="~/Home/TopicQueryByCompany?companyName=@company">@company</a></th></tr>
+                }
+            </table>
+        }
     }
-}
+</div>

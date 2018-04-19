@@ -1,24 +1,28 @@
-﻿<h2>Topic Search</h2>
-<form method="POST">
-    <div><input value="Topic name contains" name="TopicName" /> <input type="submit" /></div>    
-</form>
-@{
-    string queryString = "";
-    string[] topicList;
-    if (IsPost)
-    {
-        var topicString = Request.Form["TopicName"];
-        var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-        queryString = tempQueryTools.findTopicWithString(topicString, "%");
-        topicList = queryString.Split('%');
+﻿
+<div class="jumbotron">
+    <h2>Topic Search</h2>
+    <form method="POST">
+        <div><input value="Topic name contains" name="TopicName" /> <input type="submit" /></div>
+    </form>
+    @{
+        string queryString = "";
+        string[] topicList;
+        if (IsPost)
+        {
+            var topicString = Request.Form["TopicName"];
+            var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
+            queryString = tempQueryTools.findTopicWithString(topicString, "%");
+            topicList = queryString.Split('%');
 
-        @:Topics that contain @topicString
-        
-        <table style="width:100%">
-            @foreach (string topic in topicList)
-            {
-                <tr><th><a href="~/Home/CompanyQueryByTopic?topicName=@topic">@topic</a></th></tr>
-            }
-        </table>
+            @:Topics that contain @topicString
+
+
+            <table style="width:100%">
+                @foreach (string topic in topicList)
+                {
+                    <tr><th><a href="~/Home/CompanyQueryByTopic?topicName=@topic">@topic</a></th></tr>
+                }
+            </table>
+        }
     }
-}
+</div>

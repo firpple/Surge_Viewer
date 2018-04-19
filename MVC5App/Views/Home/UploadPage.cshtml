@@ -1,165 +1,171 @@
-﻿<h2>Upload Surge Data (.csv)</h2>
+﻿
+<div class="jumbotron">
+    <h2>Upload Surge Data (.csv)</h2>
 
-<input type="file" id="files" name="file" />
-<button onclick="abortRead();">Cancel read</button>
-<div id="progress_bar"><div class="percent">0%</div></div>
-<div id="byte_content"></div>
-<div id="byte_range"></div>
-
-<script type="text/javascript">
-    /*
-    $(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/WebForm1.aspx/sayhello',
-            data: JSON.stringify({ name: 'John' }),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            success: function (msg) {
-                // Notice that msg.d is used to retrieve the result object
-                alert(msg.d);
-            },
-            error: function (msg) {
-                // Notice that msg.d is used to retrieve the result object
-                alert("fails");
-            }
-        });
-    });
-    */
-</script>
+    <input type="file" id="files" name="file" />
 
 
-<script>
-    var reader;
-    var progress = document.querySelector('.percent');
+    <button onclick="abortRead();">Cancel read</button>
+    <div id="progress_bar"><div class="percent">0%</div></div>
+    <div id="byte_content"></div>
+    <div id="byte_range"></div>
 
-    function abortRead() {
-        reader.abort();
-    }
 
-    function errorHandler(evt) {
-        switch (evt.target.error.code) {
-            case evt.target.error.NOT_FOUND_ERR:
-                alert('File Not Found!');
-                break;
-            case evt.target.error.NOT_READABLE_ERR:
-                alert('File is not readable');
-                break;
-            case evt.target.error.ABORT_ERR:
-                break; // noop
-            default:
-                alert('An error occurred reading this file.');
-        };
-    }
 
-    function updateProgress(evt) {
-        // evt is an ProgressEvent.
-        if (evt.lengthComputable) {
-            var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-            // Increase the progress bar length.
-            if (percentLoaded < 100) {
-                progress.style.width = percentLoaded + '%';
-                progress.textContent = percentLoaded + '%';
-            }
-        }
-    }
-
-    function handleFileSelect(evt) {
-        // Reset progress indicator on new file selection.
-        progress.style.width = '0%';
-        progress.textContent = '0%';
-
-        reader = new FileReader();
-        reader.onerror = errorHandler;
-        reader.onprogress = updateProgress;
-        reader.onabort = function (e) {
-            alert('File read cancelled');
-        };
-        reader.onloadstart = function (e) {
-            document.getElementById('progress_bar').className = 'loading';
-        };
-        reader.onload = function (e) {
-            // Ensure that the progress bar displays 100% at the end.
-            progress.style.width = '100%';
-            progress.textContent = '100%';
-            setTimeout("document.getElementById('progress_bar').className='';", 2000);
-        }
-
-        reader.onloadend = function (evt) {
-            if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-
-                //this is the upload code
-                var output = "";
-                var allRows = evt.target.result.split('\n');
-                //alert("hello in function");
-                var parameterStrings = {};
-                for (var singleRow = 0; singleRow < allRows.length; singleRow++)
-                {
-                    var rowCells = allRows[singleRow].split(',');
-                    var rowString = allRows[singleRow];
-                    //output += rowString + "<><><><<><><";
-                    //alert(parameterString);
-                    /*
-                    (function (inputString) {
-                        $.ajax({
-                            type: 'POST',
-                            async: false,
-                            url: '/WebForm1.aspx/sayhello',
-                            data: JSON.stringify({ name: inputString }) ,
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            success: function (msg) {
-                                // Notice that msg.d is used to retrieve the result object
-                                alert(msg.d);
-                            },
-                            error: function (xhr, status, error) {
-                                var err = eval("(" + xhr.responseText + ")");
-                                alert(err.Message);
-                            }
-                        });
-                    })(rowString);
-                    */
-
-                    document.getElementById('byte_content').textContent = rowString;
-                    (function (inputString) {
-                        $.ajax({
-                            type: 'POST',
-                            async: false,
-                            url: '/WebForm1.aspx/InsertRow',
-                            data: JSON.stringify({ rowStringInput: inputString }),
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            complete: function () {
-                                setTimeout(1000);
-                            },
-                            success: function (msg) {
-                                // Notice that msg.d is used to retrieve the result object
-                                //alert(msg.d);
-                                document.getElementById('byte_content').textContent = inputString;
-                            },
-                            error: function (xhr, status, error) {
-                                var err = eval("(" + xhr.responseText + ")");
-                                alert(err.Message);
-                            }
-                        });
-                    })(rowString);
-                    
+    <script type="text/javascript">
+        /*
+        $(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/WebForm1.aspx/sayhello',
+                data: JSON.stringify({ name: 'John' }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {
+                    // Notice that msg.d is used to retrieve the result object
+                    alert(msg.d);
+                },
+                error: function (msg) {
+                    // Notice that msg.d is used to retrieve the result object
+                    alert("fails");
                 }
+            });
+        });
+        */
+    </script>
 
-                //document.getElementById('byte_content').textContent = output;
-                //document.getElementById('byte_content').textContent = evt.target.result;
-                document.getElementById('byte_range').textContent =
-                    ['Read bytes: ', start + 1, ' - ', stop + 1,
-                        ' of ', file.size, ' byte file'].join('');
 
+    <script>
+        var reader;
+        var progress = document.querySelector('.percent');
+
+        function abortRead() {
+            reader.abort();
+        }
+
+        function errorHandler(evt) {
+            switch (evt.target.error.code) {
+                case evt.target.error.NOT_FOUND_ERR:
+                    alert('File Not Found!');
+                    break;
+                case evt.target.error.NOT_READABLE_ERR:
+                    alert('File is not readable');
+                    break;
+                case evt.target.error.ABORT_ERR:
+                    break; // noop
+                default:
+                    alert('An error occurred reading this file.');
+            };
+        }
+
+        function updateProgress(evt) {
+            // evt is an ProgressEvent.
+            if (evt.lengthComputable) {
+                var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+                // Increase the progress bar length.
+                if (percentLoaded < 100) {
+                    progress.style.width = percentLoaded + '%';
+                    progress.textContent = percentLoaded + '%';
+                }
             }
-        };
+        }
 
-        // Read in the image file as a binary string.
-        reader.readAsBinaryString(evt.target.files[0]);
-        var blob = file.slice(0, file.size - 1);
-        reader.readAsBinaryString(blob);
-    }
+        function handleFileSelect(evt) {
+            // Reset progress indicator on new file selection.
+            progress.style.width = '0%';
+            progress.textContent = '0%';
 
-    document.getElementById('files').addEventListener('change', handleFileSelect, false);
-</script>
+            reader = new FileReader();
+            reader.onerror = errorHandler;
+            reader.onprogress = updateProgress;
+            reader.onabort = function (e) {
+                alert('File read cancelled');
+            };
+            reader.onloadstart = function (e) {
+                document.getElementById('progress_bar').className = 'loading';
+            };
+            reader.onload = function (e) {
+                // Ensure that the progress bar displays 100% at the end.
+                progress.style.width = '100%';
+                progress.textContent = '100%';
+                setTimeout("document.getElementById('progress_bar').className='';", 2000);
+            }
+
+            reader.onloadend = function (evt) {
+                if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+
+                    //this is the upload code
+                    var output = "";
+                    var allRows = evt.target.result.split('\n');
+                    //alert("hello in function");
+                    var parameterStrings = {};
+                    for (var singleRow = 0; singleRow < allRows.length; singleRow++) {
+                        var rowCells = allRows[singleRow].split(',');
+                        var rowString = allRows[singleRow];
+                        //output += rowString + "<><><><<><><";
+                        //alert(parameterString);
+                        /*
+                        (function (inputString) {
+                            $.ajax({
+                                type: 'POST',
+                                async: false,
+                                url: '/WebForm1.aspx/sayhello',
+                                data: JSON.stringify({ name: inputString }) ,
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                success: function (msg) {
+                                    // Notice that msg.d is used to retrieve the result object
+                                    alert(msg.d);
+                                },
+                                error: function (xhr, status, error) {
+                                    var err = eval("(" + xhr.responseText + ")");
+                                    alert(err.Message);
+                                }
+                            });
+                        })(rowString);
+                        */
+
+                        document.getElementById('byte_content').textContent = rowString;
+                        (function (inputString) {
+                            $.ajax({
+                                type: 'POST',
+                                async: false,
+                                url: '/WebForm1.aspx/InsertRow',
+                                data: JSON.stringify({ rowStringInput: inputString }),
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                complete: function () {
+                                    setTimeout(1000);
+                                },
+                                success: function (msg) {
+                                    // Notice that msg.d is used to retrieve the result object
+                                    //alert(msg.d);
+                                    document.getElementById('byte_content').textContent = inputString;
+                                },
+                                error: function (xhr, status, error) {
+                                    var err = eval("(" + xhr.responseText + ")");
+                                    alert(err.Message);
+                                }
+                            });
+                        })(rowString);
+
+                    }
+
+                    //document.getElementById('byte_content').textContent = output;
+                    //document.getElementById('byte_content').textContent = evt.target.result;
+                    document.getElementById('byte_range').textContent =
+                        ['Read bytes: ', start + 1, ' - ', stop + 1,
+                            ' of ', file.size, ' byte file'].join('');
+
+                }
+            };
+
+            // Read in the image file as a binary string.
+            reader.readAsBinaryString(evt.target.files[0]);
+            var blob = file.slice(0, file.size - 1);
+            reader.readAsBinaryString(blob);
+        }
+
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    </script>
+</div>
