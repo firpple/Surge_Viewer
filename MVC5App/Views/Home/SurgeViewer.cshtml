@@ -61,7 +61,28 @@
             lineColor: "#b5030d",
             negativeLineColor: "#0352b5",
             balloonText: "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>"
+        },
+        {
+            title: "blue line",
+            id: "g2",
+            valueAxis: "v1",
+            valueField: "lols",
+            bullet: "round",
+            bulletBorderColor: "#FFFFFF",
+            bulletBorderAlpha: 1,
+            lineThickness: 2,
+            lineColor: "#0000ff",
+            negativeLineColor: "#0352b5",
+            balloonText: "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>"
         }],
+        legend: {
+            position: "bottom",
+            valueText: "[[value]]",
+            valueWidth: 100,
+            valueAlign: "left",
+            equalWidths: false,
+            periodValueText: ""
+        },
         chartCursor: {
             fullWidth: true,
             cursorAlpha: 0.1
@@ -95,6 +116,18 @@
                 @:newDate = ParseDate("@topicList[i]");
                 @:visits = @topicList[++i];
                 @:chartData.push({date: newDate,visits: visits});
+            }
+
+            companyString = "irib";
+            topicString = "Hitachi";
+            queryString = tempQueryTools.findSurgeWithCompanyTopic(companyString, topicString, "%");
+            topicList = queryString.Split('%');
+
+            for (int i = 0; i < topicList.Length - 2; i++)
+            {
+                @:newDate = ParseDate("@topicList[i]");
+                @:lols = @topicList[++i];
+                @:chartData.push({date: newDate,lols: lols});
             }
         }
     }
@@ -142,10 +175,11 @@
                     <h4 style="text-align:center">More topics for @companyString
                     <button ng-click="count = myWelcome; hdr = myHeader; score = myScore">Submit</button></h4>
                     <table>
-                        <tr><th>{{hdr}}</th><th>{{score}}</th></tr>
+                        <tr><th>{{hdr}}</th><th>{{score}}</th><th></th></tr>
                         <tr href="#" ng-repeat="x in count.split(';')">
                             <td><a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a></td>
                             <td>{{x.trim().split('|')[1]}}</td>
+                            <td style="padding-left:10px"><a href="#">Compare</a></td>
                         </tr>
                     </table>
                 </div>
@@ -159,10 +193,11 @@
                     <h4 style="text-align:center">More companies for @topicString
                     <button ng-click="count2 = myWelcome2; hdr2 = myHeader2; score2 = myScore2;">Submit</button></h4>
                     <table>
-                        <tr><th>{{hdr2}}</th><th>{{score2}}</th></tr>
+                        <tr><th>{{hdr2}}</th><th>{{score2}}</th><th></th></tr>
                         <tr href="#" ng-repeat="x2 in count2.split(';')">
                             <td><a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a></td>
                             <td>{{x2.trim().split('|')[1]}}</td>
+                            <td style="padding-left:10px"><a href="#">Compare</a></td>
                         </tr>
                     </table>
                 </div>
