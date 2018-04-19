@@ -1,13 +1,38 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #ec7e1e;/*blue*/
+    color: black;
 }
+table {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: white;
+    color: black;
+}
+
+/*Nav bar*/
+
+
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+/*
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+*/
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
@@ -49,4 +74,10 @@ textarea {
 .blocktext img{
     width:70%;
     height:70%;
+}
+.jumbotron {
+    padding: 30px 15px;
+    margin-bottom: 30px;
+    color: black;
+    background-color: white;
 }

@@ -1,40 +1,43 @@
-﻿<h2>
-    @{
-        var topicString = (string)ViewData["topicName"];
-        if (topicString.IsEmpty())
-        {
-            @:Find companies surging on a topic
-        }
-        else
-        {
-            @:Companies surging on @topicString
-        }
-    }
-</h2>
-<form method="get">
-    <div><input value="Exact Topic Name" name="topicName" /> <input type="submit" /></div>    
-</form>
-<hr />
-@{
-    string queryString = "";
-    string[] companyList;
-    if (!((string)ViewData["topicName"]).IsEmpty())
-    {        
-        var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
-        var ScoreString = "";
-        var company = "";
-        queryString = tempQueryTools.returnCompanyFromTopicWithScore(topicString, "%");
-        companyList = queryString.Split('%');
-
-        @:Companies that are interested in @topicString:
-        
-        <table>
-            @for (int index = 0; index < companyList.Length - 1; index += 2)
+﻿
+<div class="jumbotron">
+    <h2>
+        @{
+            var topicString = (string)ViewData["topicName"];
+            if (topicString.IsEmpty())
             {
-                company = companyList[index];
-                ScoreString = companyList[index + 1];
-                <tr><td><a href="~/Home/PlotData?companyName=@company&topicName=@topicString">@company</a></td><td style="padding-left:20px">@ScoreString</td></tr>
-            }
-        </table>
+                @:Find companies surging on a topic
+        }
+            else
+            {
+                @:Companies surging on @topicString
+        }
+        }
+    </h2>
+    <form method="get">
+        <div><input value="Exact Topic Name" name="topicName" /> <input type="submit" /></div>
+    </form>
+    <hr />
+    @{
+        string queryString = "";
+        string[] companyList;
+        if (!((string)ViewData["topicName"]).IsEmpty())
+        {
+            var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
+            var ScoreString = "";
+            var company = "";
+            queryString = tempQueryTools.returnCompanyFromTopicWithScore(topicString, "%");
+            companyList = queryString.Split('%');
+
+            @:Companies that are interested in @topicString:
+
+            <table>
+                @for (int index = 0; index < companyList.Length - 1; index += 2)
+                {
+                    company = companyList[index];
+                    ScoreString = companyList[index + 1];
+                    <tr><td><a href="~/Home/PlotData?companyName=@company&topicName=@topicString">@company</a></td><td style="padding-left:20px">@ScoreString</td></tr>
+                }
+            </table>
+        }
     }
-}
+</div>
