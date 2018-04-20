@@ -100,12 +100,32 @@ namespace MVC5App.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult FindCompany(string topicName)
+        {
+            ViewBag.Message = "Your find company page.";
+            ViewData["companyName"] = topicName;
+
+            return View();
+        }
+
         public ActionResult FindTopic()
         {
             ViewBag.Message = "Your find topic page.";
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult FindTopic(string topicName)
+        {
+            ViewBag.Message = "Your find topic page.";
+            ViewData["TopicName"] = topicName;
+
+            return View();
+        }
+
         public ActionResult FindSurge()
         {
             ViewBag.Message = "Your find surge page.";
@@ -129,6 +149,11 @@ namespace MVC5App.Controllers
         }
 
         public ActionResult SinglePageCompanies()
+        {
+            return View();
+        }
+
+        public ActionResult QuickStart()
         {
             return View();
         }
