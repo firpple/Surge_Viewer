@@ -2,27 +2,25 @@
 <div class="jumbotron">
     <h2>Topic Search</h2>
     <p>Find topic name by searching for part of its name</p>
-    <form method="POST">
-        <div><input value="Topic name contains" name="TopicName" /> <input type="submit" /></div>
-    </form>
+
+    @{
+        string topicString = (string)ViewData["TopicName"];
+        Html.BeginForm("FindTopic", "Home", FormMethod.Get);
+        <input type="text" name="TopicName" value="@topicString" />
+        <input type="submit" value="Submit" />
+        Html.EndForm();
+    }
+
     @{
         string queryString = "";
         string[] topicList;
-        if (IsPost)
+        if (!((string)ViewData["TopicName"]).IsEmpty())
         {
-            var topicString = Request.Form["TopicName"];
             var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
             queryString = tempQueryTools.findTopicWithString(topicString, "%");
             topicList = queryString.Split('%');
 
             <h3>Topics that contain "@topicString" </h3>
-
-
-
-
-
-
-
 
             <table style="width:100%">
                 @foreach (string topic in topicList)

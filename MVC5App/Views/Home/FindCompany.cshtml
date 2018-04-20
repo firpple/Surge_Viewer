@@ -2,22 +2,25 @@
 <div class="jumbotron">
     <h2>Company Search</h2>
     <p>Find company name by searching for part of its name</p>
-    <form method="POST">
-        <div><input value="Company name contains" name="companyName" /> <input type="submit" /></div>
-    </form>
+    
+    @{
+        string companyString = (string)ViewData["companyName"];
+        Html.BeginForm("FindCompany", "Home", FormMethod.Get);
+        <input type="text" name="TopicName" value="@companyString" />
+        <input type="submit" value="Submit" />
+        Html.EndForm();
+    }
+
     @{
         string queryString = "";
         string[] companyList;
-        if (IsPost)
-        {
-            var companyString = Request.Form["companyName"];
+        if (!((string)ViewData["companyName"]).IsEmpty())
+        {            
             var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
             queryString = tempQueryTools.findCompanyWithString(companyString, "%");
             companyList = queryString.Split('%');
 
             <h3>Companies that contain "@companyString"</h3>
-
-
             <table style="width:100%">
                 @foreach (string company in companyList)
                 {
