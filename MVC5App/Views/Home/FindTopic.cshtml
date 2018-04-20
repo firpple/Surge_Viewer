@@ -1,6 +1,7 @@
 ﻿
 <div class="jumbotron">
     <h2>Topic Search</h2>
+    <p>Find topic name by searching for part of its name</p>
     <form method="POST">
         <div><input value="Topic name contains" name="TopicName" /> <input type="submit" /></div>
     </form>
@@ -14,7 +15,13 @@
             queryString = tempQueryTools.findTopicWithString(topicString, "%");
             topicList = queryString.Split('%');
 
-            @:Topics that contain @topicString
+            <h3>Topics that contain "@topicString" </h3>
+
+
+
+
+
+
 
 
             <table style="width:100%">

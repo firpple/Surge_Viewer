@@ -10,17 +10,27 @@ table {
     background-color: white;
     color: black;
 }
-
-/*Nav bar*/
-
-
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
+a {
+    color: blue;
+    text-decoration: none;
+}
+a:hover, a:focus {
+    color: purple;
+    text-decoration: underline;
+}
+.jumbotron p {
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+    /* Set padding to keep content from hitting the edges */
+    .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
-
+tbody tr:nth-child(odd) {
+    background-color: #ababab;
+    color: #fff;
+}
 /*
 .button {
     background-color: #4CAF50;
