@@ -1,0 +1,26 @@
+﻿<div class="jumbotron" style="height:300px;">    
+    <div style="width:50%; float:left">
+        <h2>Company Search</h2>
+        <p>Find topic name by searching for part of its name</p>
+        @{
+            string companyString = (string)ViewData["companyName"];
+            Html.BeginForm("FindCompany", "Home", FormMethod.Get);
+            <input type="text" name="TopicName" value="@companyString" />
+            <input type="submit" value="Submit" />
+            Html.EndForm();
+        }
+    </div>
+
+    <div style="width:30%; float:left">
+        <h2>Topic Search</h2>
+        <p>Find topic name by searching for part of its name</p>
+        @{
+            string topicString = (string)ViewData["TopicName"];
+            Html.BeginForm("FindTopic", "Home", FormMethod.Get);
+            <input type="text" name="TopicName" value="" />
+            <input type="submit" value="Submit" />
+            Html.EndForm();
+        }
+    </div>
+</div>
+

@@ -581,6 +581,7 @@
     <Content Include="Views\Home\CompanyQueryByTopic.cshtml" />
     <Content Include="Views\Home\SinglePage.cshtml" />
     <Content Include="Views\Home\SinglePageCompanies.cshtml" />
+    <Content Include="Views\Home\QuickStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
