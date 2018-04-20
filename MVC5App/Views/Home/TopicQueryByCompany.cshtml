@@ -6,17 +6,19 @@
             if (companyString.IsEmpty())
             {
                 @:Find topics for a company
-        }
+            }
             else
             {
                 @:Topics for @companyString
-        }
+            }
         }
     </h2>
+
+
+    <p>Search for topics that a specific company is interested in.</p>
     <form method="get">
         <div><input value="Exact Company Name" name="companyName" /> <input type="submit" /></div>
     </form>
-    <hr />
     @{
         string queryString = "";
         string[] topicList;
@@ -28,9 +30,10 @@
             var ScoreString = "";
             var topic = "";
 
-            @:@companyString is interested in:
+            <h3>"@companyString" is interested in:</h3>
 
             <table>
+
                 @for (int index = 0; index < topicList.Length - 1; index += 2)
                 {
                     topic = topicList[index];

@@ -13,10 +13,10 @@
         }
         }
     </h2>
+    <p>Search for companies that are interested in a specific topic</p>
     <form method="get">
         <div><input value="Exact Topic Name" name="topicName" /> <input type="submit" /></div>
     </form>
-    <hr />
     @{
         string queryString = "";
         string[] companyList;
@@ -28,7 +28,7 @@
             queryString = tempQueryTools.returnCompanyFromTopicWithScore(topicString, "%");
             companyList = queryString.Split('%');
 
-            @:Companies that are interested in @topicString:
+            <h3>Companies that are interested in "@topicString":</h3>
 
             <table>
                 @for (int index = 0; index < companyList.Length - 1; index += 2)

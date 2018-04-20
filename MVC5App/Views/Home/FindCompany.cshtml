@@ -1,6 +1,7 @@
 ﻿
 <div class="jumbotron">
     <h2>Company Search</h2>
+    <p>Find company name by searching for part of its name</p>
     <form method="POST">
         <div><input value="Company name contains" name="companyName" /> <input type="submit" /></div>
     </form>
@@ -14,7 +15,7 @@
             queryString = tempQueryTools.findCompanyWithString(companyString, "%");
             companyList = queryString.Split('%');
 
-            @:Companies that contain @companyString
+            <h3>Companies that contain "@companyString"</h3>
 
 
             <table style="width:100%">
