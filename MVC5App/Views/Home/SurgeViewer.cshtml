@@ -238,7 +238,7 @@
                         <tr href="#" ng-repeat="x in count.split(';')">
                             <td><a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a></td>
                             <td>{{x.trim().split('|')[1]}}</td>
-                            <td style="padding-left:10px"><a href="#">Compare</a></td>
+                            <td style="padding-left:10px"><a href="~/Home/PlotData?companyName=@companyString&topicName=@topicString&companyName2=@companyString&topicName2={{x.trim().split('|')[0]}}">Compare</a></td>
                         </tr>
                     </table>
                 </div>
