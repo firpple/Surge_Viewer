@@ -10,7 +10,9 @@
 <h2>Surge Viewer</h2>
 @{
     string queryString = "";
+    string queryString2 = "";
     string[] topicList;
+    string[] topicList2;
 
     string companyString = (string)ViewData["companyName"];
     string topicString = (string)ViewData["topicName"];
@@ -104,6 +106,8 @@
 
         var newDate = new Date();
         var visits = 0;
+        var data1 = new Array();
+        var data2 = new Array();
 
         //Get the data from MySQL
         @{
@@ -115,19 +119,51 @@
             {
                 @:newDate = ParseDate("@topicList[i]");
                 @:visits = @topicList[++i];
-                @:chartData.push({date: newDate,visits: visits});
+                //@:chartData.push({date: newDate,visits: visits});
+                @:data1.push({date: newDate,visits: visits});
             }
 
-            companyString = "irib";
-            topicString = "Hitachi";
-            queryString = tempQueryTools.findSurgeWithCompanyTopic(companyString, topicString, "%");
-            topicList = queryString.Split('%');
+            string companyString2 = "irib";
+            string topicString2 = "Hitachi";
+            queryString2 = tempQueryTools.findSurgeWithCompanyTopic(companyString2, topicString2, "%");
+            topicList2 = queryString2.Split('%');
 
-            for (int i = 0; i < topicList.Length - 2; i++)
+            for (int i = 0; i < topicList2.Length - 2; i++)
             {
-                @:newDate = ParseDate("@topicList[i]");
-                @:lols = @topicList[++i];
-                @:chartData.push({date: newDate,lols: lols});
+                @:newDate = ParseDate("@topicList2[i]");
+                @:lols = @topicList2[++i];
+                //@:chartData.push({date: newDate,lols: lols});
+                @:data2.push({date: newDate,lols: lols});
+            }
+        }
+
+        var i = 0;
+        var j = 0;
+        while (i < data1.length || j < data2.length) {
+            //do some javascript merging magic
+
+
+            if (i >= data1.length) {
+                chartData.push(data2[j]);
+                j++;
+            }
+            if (j >= data2.length) {
+                chartData.push(data1[i]);
+                i++;
+            }
+
+            if (data1[i].date < data2[j].date) {
+                chartData.push(data1[i]);
+                i++;
+            }
+            else if (data2[j].date < data1[i].date) {
+                chartData.push(data2[j]);
+                j++;
+            }
+            else { //the dates are equal
+                chartData.push({ date: data1[i].date, visits: data1[i].visits, lols: data2[j].lols });
+                i++;
+                j++;
             }
         }
     }
