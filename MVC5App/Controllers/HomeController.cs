@@ -115,10 +115,12 @@ namespace MVC5App.Controllers
 
         //https://msdn.microsoft.com/en-us/library/dd410596(v=vs.100).aspx
         [HttpGet]
-        public ActionResult PlotData(string companyName, string topicName)
+        public ActionResult PlotData(string companyName, string topicName, string companyName2 = "", string topicName2 = "")
         {
             ViewData["companyName"] = companyName;
             ViewData["topicName"] = topicName;
+            ViewData["companyName2"] = companyName2;
+            ViewData["topicName2"] = topicName2;
 
             return View("SurgeViewer");
         }
