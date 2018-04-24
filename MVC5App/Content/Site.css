@@ -10,14 +10,39 @@ table {
     background-color: white;
     color: black;
 }
+td {
+    padding-left:5px;
+    padding-right:5px;
+}
 a {
     color: blue;
     text-decoration: none;
 }
-a:hover, a:focus {
-    color: purple;
-    text-decoration: underline;
+a {
+    /*text-decoration: underline;*/
+    font-weight: bold;
 }
+
+    /* unvisited link */
+    a:link {
+        color: #35464C;
+    }
+
+/* visited link */
+    a:visited {
+        color: #35464C;
+    }
+
+/* mouse over link */
+    a:hover {
+        color: #597680;
+    }
+
+/* selected link */
+    a:active {
+        color: #8CA8B0;
+    }
+
 .jumbotron p {
     margin-bottom: 15px;
     font-size: 14px;
@@ -28,8 +53,8 @@ a:hover, a:focus {
     padding-right: 15px;
 }
 tbody tr:nth-child(odd) {
-    background-color: #ababab;
-    color: #fff;
+    background-color: #dddddd;
+    
 }
 /*
 .button {
