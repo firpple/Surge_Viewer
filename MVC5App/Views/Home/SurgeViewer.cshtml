@@ -7,35 +7,37 @@
 <script src="~/Scripts/amcharts/amcharts.js"></script>
 <script src="~/Scripts/amcharts/serial.js"></script>
 
-<h2>Surge Viewer</h2>
-@{
-    string queryString = "";
-    string queryString2 = "";
-    string[] topicList;
-    string[] topicList2;
+<div class="jumbotron">
 
-    string companyString = (string)ViewData["companyName"];
-    string topicString = (string)ViewData["topicName"];
-    string companyString2 = (string)ViewData["companyName2"];
-    string topicString2 = (string)ViewData["topicName2"];
+    <h2>Surge Viewer</h2>
+    @{
+        string queryString = "";
+        string queryString2 = "";
+        string[] topicList;
+        string[] topicList2;
 
-    if (companyString.IsEmpty() || topicString.IsEmpty())
-    {
-        companyString = "irib";
-        topicString = "MySQL";
+        string companyString = (string)ViewData["companyName"];
+        string topicString = (string)ViewData["topicName"];
+        string companyString2 = (string)ViewData["companyName2"];
+        string topicString2 = (string)ViewData["topicName2"];
+
+        if (companyString.IsEmpty() || topicString.IsEmpty())
+        {
+            companyString = "irib";
+            topicString = "MySQL";
+        }
+
+        Html.BeginForm("PlotData", "Home", FormMethod.Get);
+        <input type="text" name="companyName" value="@companyString" />
+        <input type="text" name="topicName" value="@topicString" />
+        <input type="submit" value="Submit" />
+        Html.EndForm();
+
     }
 
-    Html.BeginForm("PlotData", "Home", FormMethod.Get);
-    <input type="text" name="companyName" value="@companyString" />
-    <input type="text" name="topicName" value="@topicString" />
-    <input type="submit" value="Submit" />
-    Html.EndForm();
+    <hr />
 
-}
-
-<hr />
-
-<script>
+    <script>
     var chartData = [];
     generateChartData();
 
@@ -210,67 +212,69 @@
         }
         chart.validateNow();
     }
-</script>
+    </script>
 
 
 
-<div id="chartdiv" style="width: 100%; height: 400px; background-color:antiquewhite"></div>
-<div style="margin-left:35px;">
-    <input type="radio" checked="true" name="group" id="rb1" onclick="setPanSelect()">Select
-    <input type="radio" name="group" id="rb2" onclick="setPanSelect()">Pan
-</div>
+    <div id="chartdiv" style="width: 100%; height: 400px; background-color:antiquewhite"></div>
+    <div style="margin-left:35px;">
+        <input type="radio" checked="true" name="group" id="rb1" onclick="setPanSelect()">Select
+        <input type="radio" name="group" id="rb2" onclick="setPanSelect()">Pan
+    </div>
 
-<hr />
+    <hr />
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
-<table style="width:100%">
-    <tr>
-        <td style="width:50%; vertical-align:top;">
-            <div id="dvFirst">
-                <div ng-controller="myCtrl">
+    <table style="width:100%">
+        <tr>
+            <td style="width:50%; vertical-align:top;">
+                <div id="dvFirst">
+                    <div ng-controller="myCtrl">
 
-                    <h2 style="text-align:center">Company: @companyString</h2>
-                    <h4 style="text-align:center">More topics for @companyString
-                    <button ng-click="count = myWelcome; hdr = myHeader; score = myScore">Submit</button></h4>
-                    <table>
-                        <tr><th>{{hdr}}</th><th>{{score}}</th><th></th></tr>
-                        <tr href="#" ng-repeat="x in count.split(';')">
-                            <td><a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a></td>
-                            <td>{{x.trim().split('|')[1]}}</td>
-                            <td style="padding-left:10px"><a href="~/Home/PlotData?companyName=@companyString&topicName=@topicString&companyName2=@companyString&topicName2={{x.trim().split('|')[0]}}">Compare</a></td>
-                        </tr>
-                    </table>
+                        <h2 style="text-align:center">Company: @companyString</h2>
+                        <h4 style="text-align:center">                            
+                            <button ng-click="count = myWelcome; hdr = myHeader; score = myScore">More Topics</button>
+                        </h4>
+                        <table>
+                            <tr><th>{{hdr}}</th><th>{{score}}</th><th></th></tr>
+                            <tr href="#" ng-repeat="x in count.split(';')">
+                                <td><a href="~/Home/PlotData?companyName=@companyString&topicName={{x.trim().split('|')[0]}}">{{x.trim().split('|')[0]}}</a></td>
+                                <td>{{x.trim().split('|')[1]}}</td>
+                                <td style="padding-left:10px"><a href="~/Home/PlotData?companyName=@companyString&topicName=@topicString&companyName2=@companyString&topicName2={{x.trim().split('|')[0]}}">Compare</a></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td style="width:50%; vertical-align:top;">
-            <div id="dvSecond">
-                <div ng-controller="myCtrl2">
+            </td>
+            <td style="width:50%; vertical-align:top;">
+                <div id="dvSecond">
+                    <div ng-controller="myCtrl2">
 
-                    <h2 style="text-align:center">Topic: @topicString</h2>
-                    <h4 style="text-align:center">More companies for @topicString
-                    <button ng-click="count2 = myWelcome2; hdr2 = myHeader2; score2 = myScore2;">Submit</button></h4>
-                    <table>
-                        <tr><th>{{hdr2}}</th><th>{{score2}}</th><th></th></tr>
-                        <tr href="#" ng-repeat="x2 in count2.split(';')">
-                            <td><a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a></td>
-                            <td>{{x2.trim().split('|')[1]}}</td>
-                            <td style="padding-left:10px"><a href="#">Compare</a></td>
-                        </tr>
-                    </table>
+                        <h2 style="text-align:center">Topic: @topicString</h2>
+                        <h4 style="text-align:center">                            
+                            <button ng-click="count2 = myWelcome2; hdr2 = myHeader2; score2 = myScore2;">More Companies</button>
+                        </h4>
+                        <table>
+                            <tr><th>{{hdr2}}</th><th>{{score2}}</th><th></th></tr>
+                            <tr href="#" ng-repeat="x2 in count2.split(';')">
+                                <td><a href="~/Home/PlotData?companyName={{x2.trim().split('|')[0]}}&topicName=@topicString">{{x2.trim().split('|')[0]}}</a></td>
+                                <td>{{x2.trim().split('|')[1]}}</td>
+                                <td style="padding-left:10px"><a href="#">Compare</a></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+    </table>
 
 
 
 
 
 
-<script>
+    <script>
     var firstApp = angular.module('firstApp', []);
     firstApp.controller('myCtrl', function ($scope, $http) {
         $http.get("/Home/SinglePage?companyName=@companyString")
@@ -302,5 +306,6 @@
         angular.bootstrap(dvSecond, ['secondApp']);
     });
 
-</script>
+    </script>
 
+</div>
