@@ -1,9 +1,16 @@
-﻿
+﻿//=============================================================================
+// PrintHello()
+// Hello world used for learning JS
+//=============================================================================
 function PrintHello() {
     var message = "hello world?";
     document.write(message);
 }
 
+//=============================================================================
+// PrintDateFromStr(inputStr)
+// Prints date crom string in the format of: ""yyyy-mm-dd hh-mm-ss GMT"
+//=============================================================================
 function PrintDateFromStr(inputStr) {
     var dateArr = inputStr.split(" ")[0].split("-");
     var fullDate = new Date();
