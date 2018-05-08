@@ -11,6 +11,8 @@
 
     <h2>Surge Viewer</h2>
     @{
+        // Input company and topic data passed by URL
+        // irib and MySQL used by default
         string queryString = "";
         string queryString2 = "";
         string[] topicList;
@@ -38,6 +40,7 @@
     <hr />
 
     <script>
+    // Amchart data configured for our needs
     var chartData = [];
     generateChartData();
 
@@ -59,7 +62,7 @@
             title: "@companyString [@topicString]",
             id: "g1",
             valueAxis: "v1",
-            valueField: "visits",
+            valueField: "topicNum1",
             bullet: "round",
             bulletBorderColor: "#FFFFFF",
             bulletBorderAlpha: 1,
@@ -75,7 +78,7 @@
                 @:    title: "@companyString2 [@topicString2]",
                 @:    id: "g2",
                 @:    valueAxis: "v1",
-                @:    valueField: "lols",
+                @:    valueField: "topicNum2",
                 @:    bullet: "round",
                 @:    bulletBorderColor: "#FFFFFF",
                 @:    bulletBorderAlpha: 1,
@@ -114,12 +117,14 @@
     function generateChartData() {
 
         var newDate = new Date();
-        var visits = 0;
+        var topicNum1 = 0;
         var data1 = new Array();
         var data2 = new Array();
 
         //Get the data from MySQL
         @{
+            // Get an array from the first company and topic pair
+            // Get a second array only if there is a second set
             var tempQueryTools = new MVC5App.Scripts.Test.QueryTools();
             queryString = tempQueryTools.findSurgeWithCompanyTopic(companyString, topicString, "%");
             topicList = queryString.Split('%');
@@ -127,14 +132,14 @@
             for (int i = 0; i < topicList.Length - 2; i++)
             {
                 @:newDate = ParseDate("@topicList[i]");
-                @:visits = @topicList[++i];
+                @:topicNum1 = @topicList[++i];
                 if (!companyString2.IsEmpty() && !topicString2.IsEmpty())
                 {
-                    @:data1.push({date: newDate,visits: visits});
+                    @:data1.push({date: newDate,topicNum1: topicNum1});
                 }
                 else
                 {
-                    @:chartData.push({date: newDate,visits: visits});
+                    @:chartData.push({date: newDate,topicNum1: topicNum1});
                 }
 
             }
@@ -147,14 +152,15 @@
                 for (int i = 0; i < topicList2.Length - 2; i++)
                 {
                     @:newDate = ParseDate("@topicList2[i]");
-                    @:lols = @topicList2[++i];
-                    @:data2.push({date: newDate,lols: lols});
+                    @:topicNum2 = @topicList2[++i];
+                    @:data2.push({date: newDate,topicNum2: topicNum2});
                 }
             }
         }
 
 
         @{
+            // Merge arrays from multiple datasets
             if (!companyString2.IsEmpty() && !topicString2.IsEmpty())
             {
                 @:var i = 0;
@@ -184,7 +190,7 @@
                     @:}
                     @:else
                     @:{ //the dates are equal
-                        @:chartData.push({ date: data1[i].date, visits: data1[i].visits, lols: data2[j].lols });
+                        @:chartData.push({ date: data1[i].date, topicNum1: data1[i].topicNum1, topicNum2: data2[j].topicNum2 });
                         @:i++;
                         @:j++;
                     @:}
@@ -225,7 +231,8 @@
     <hr />
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-
+    
+    <!-- Dynamicly load additional companies and topics using AngularJS -->
     <table style="width:100%">
         <tr>
             <td style="width:50%; vertical-align:top;">
@@ -275,6 +282,7 @@
 
 
     <script>
+        // Angular JS implementation for dynamically loading data
     var firstApp = angular.module('firstApp', []);
     firstApp.controller('myCtrl', function ($scope, $http) {
         $http.get("/Home/SinglePage?companyName=@companyString")
