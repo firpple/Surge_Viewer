@@ -1,5 +1,11 @@
 ﻿//code author: Ocph23 (stackExchange User)
 //code modifier: Evan Su
+/*
+ * Purpose:
+ *  DBConnection is a class that handles connection to the database.
+ * 
+ * 
+ */
 
 using MySql.Data;
 using MySql.Data.MySqlClient;
@@ -8,10 +14,12 @@ namespace MVC5App.Models
 {
     public class DBConnection
     {
+        //default private constructor
         private DBConnection()
         {
         }
 
+        //database name
         private string databaseName = string.Empty;
         public string DatabaseName
         {
@@ -19,13 +27,17 @@ namespace MVC5App.Models
             set { databaseName = value; }
         }
 
+        //database password
         public string Password { get; set; }
+
+        //database SQLConnection class
         private MySqlConnection connection = null;
         public MySqlConnection Connection
         {
             get { return connection; }
         }
 
+        //database SQLConnection class
         private static DBConnection _instance = null;
         public static DBConnection Instance()
         {
@@ -33,6 +45,9 @@ namespace MVC5App.Models
             return _instance;
         }
 
+        //IsConnect attempts to connect to the database based on the parameters passed in.
+        //Currently, the database connection string is hardcoded in.
+        //This should be fixed in order to prevent unauthorized access to the database. 
         public bool IsConnect()
         {
             if (connection == null)
@@ -56,6 +71,7 @@ namespace MVC5App.Models
             return true;
         }
 
+        //Close, closes the connection to the database. 
         public void Close()
         {
             connection.Close();

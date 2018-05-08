@@ -12,6 +12,7 @@ namespace MVC5App.Scripts.Test
 {
     public class QueryTools
     {
+        //This function reads in a CSV file and returns a string of all the entries
         public string readCSV(string inFile)
         {
             CSVDataStruct tempRow = new CSVDataStruct();
@@ -42,6 +43,7 @@ namespace MVC5App.Scripts.Test
             return outstring;
         }
 
+        //Takes in a properly formatted string and inserts it into the database.
         public int insertString(string rowString)
         {
 
@@ -74,6 +76,7 @@ namespace MVC5App.Scripts.Test
             return 0;
         }
 
+        //inserts a CSV object into a database.
         public string insertObject(CSVDataStruct insertRow)
         {
             string outMessage = "";

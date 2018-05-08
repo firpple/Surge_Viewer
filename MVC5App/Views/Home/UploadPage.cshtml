@@ -1,4 +1,19 @@
-﻿
+﻿<!--
+    Author: Evan Su
+    Date: 5/7/2018
+    Purpose:
+        This page is designed to handle the file uploads for Surge viewer.
+        The user will press the "select a file" button to select a CSV.
+        The selected CSV will be upload to the database.
+        During the upload, the user can cancel the upload by hitting the upload button.
+    
+    Structure:
+        The majority of the codeis a html markup of the website itself.
+        The file handling and reading is done by javascript.
+        Javascript will read each line of the CSV spreadsheet and upload the entry using C#
+    
+           
+    --->
 <div class="jumbotron">
     <h2>Upload Surge Data (.csv)</h2>
 
@@ -12,38 +27,21 @@
     <div id="byte_range"></div>
 
 
-
-    <script type="text/javascript">
-        /*
-        $(function () {
-            $.ajax({
-                type: 'POST',
-                url: '/WebForm1.aspx/sayhello',
-                data: JSON.stringify({ name: 'John' }),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (msg) {
-                    // Notice that msg.d is used to retrieve the result object
-                    alert(msg.d);
-                },
-                error: function (msg) {
-                    // Notice that msg.d is used to retrieve the result object
-                    alert("fails");
-                }
-            });
-        });
-        */
-    </script>
-
+    <!-- 
+        The following script handles file uploads.
+        The function takes in a CSV file and will upload that file to the database.
+        
+        
+        -->
 
     <script>
         var reader;
         var progress = document.querySelector('.percent');
-
+        //function for canceling the reading
         function abortRead() {
             reader.abort();
         }
-
+        //handles error events
         function errorHandler(evt) {
             switch (evt.target.error.code) {
                 case evt.target.error.NOT_FOUND_ERR:
@@ -98,34 +96,13 @@
                     //this is the upload code
                     var output = "";
                     var allRows = evt.target.result.split('\n');
-                    //alert("hello in function");
                     var parameterStrings = {};
+                    //This for loop iterates through each of the row in the CSV
                     for (var singleRow = 0; singleRow < allRows.length; singleRow++) {
                         var rowCells = allRows[singleRow].split(',');
                         var rowString = allRows[singleRow];
-                        //output += rowString + "<><><><<><><";
-                        //alert(parameterString);
-                        /*
-                        (function (inputString) {
-                            $.ajax({
-                                type: 'POST',
-                                async: false,
-                                url: '/WebForm1.aspx/sayhello',
-                                data: JSON.stringify({ name: inputString }) ,
-                                contentType: 'application/json; charset=utf-8',
-                                dataType: 'json',
-                                success: function (msg) {
-                                    // Notice that msg.d is used to retrieve the result object
-                                    alert(msg.d);
-                                },
-                                error: function (xhr, status, error) {
-                                    var err = eval("(" + xhr.responseText + ")");
-                                    alert(err.Message);
-                                }
-                            });
-                        })(rowString);
-                        */
 
+                        //this is the actual function to handle insertion into the database call
                         document.getElementById('byte_content').textContent = rowString;
                         (function (inputString) {
                             $.ajax({
@@ -152,8 +129,6 @@
 
                     }
 
-                    //document.getElementById('byte_content').textContent = output;
-                    //document.getElementById('byte_content').textContent = evt.target.result;
                     document.getElementById('byte_range').textContent =
                         ['Read bytes: ', start + 1, ' - ', stop + 1,
                             ' of ', file.size, ' byte file'].join('');
@@ -162,6 +137,8 @@
             };
 
             // Read in the image file as a binary string.
+            // This was a to-be implemented section for by section uploads
+            // This currently reads the entire file. 
             reader.readAsBinaryString(evt.target.files[0]);
             var blob = file.slice(0, file.size - 1);
             reader.readAsBinaryString(blob);
